@@ -1,5 +1,9 @@
 import string
 
+path = "Class2022_F02_Original/schedule_term1.ics"
+
+requiredLines = ("BEGIN:VEVENT", "SUMMARY:", "DTSTART:", "DTEND:", "UID:", "END:VEVENT")
+
 
 def find_2nd(string, substring):
     return string.find(substring, string.find(substring) + 1)
@@ -8,7 +12,7 @@ def find_2nd(string, substring):
 def modifyEvent(event: list) -> list:
 
     # If SUMMARY break into 2 lines
-    if len(event) == 8:
+    if len(event) == len(requiredLines) + 1:
         # remove \n for SUMMARY
         event[1] = event[1][0:-1]
         # join the second line into SUMMARY
@@ -47,46 +51,35 @@ def main():
 
     # open ics file in read mode
     try:
-        original = open("schedule.ics", "r")
+        original = open(path, "r")
     except:
         print("--- ics file path invalid ---")
         return
 
-    # collect events from original ics file
-    collectEvent = False
     # a large list of events
     Events = []
     # a list to store one event as lines of strings
     event = []
+
+    n = 0
     # traverse original ics file line by line
     for line in original:
-        # skip useless lines
-        if line == "":
-            continue
-        if "DTSTAMP" in line:
-            continue
-        if "CREATED" in line:
-            continue
-        if "LAST-MODIFIED" in line:
-            continue
-        if "SEQUENCE" in line:
-            continue
-        if "RRULE" in line:
-            continue
-        if "EXDATE" in line:
-            continue
-        if "DESCRIPTION" in line:
-            continue
 
         # collecting useful lines for one event
-        if "BEGIN:VEVENT" in line:
-            collectEvent = True
-        if collectEvent == True:
+        if requiredLines[n] in line:
             event.append(line)
-        if "END:VEVENT" in line:
-            collectEvent = False
-            Events.append(event)
-            event = []
+            if n <= len(requiredLines) - 2:
+                n += 1
+            elif n == len(requiredLines) - 1:
+                Events.append(event)
+                event = []
+                n = 0
+            else:
+                pass
+        elif requiredLines[n] not in line and n == 2:
+            event.append(line)
+        else:
+            pass
 
     # New big list of events
     new_events = []

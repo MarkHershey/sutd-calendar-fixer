@@ -14,7 +14,7 @@ def modifyEvent(event):
 
     if len(event) == 8:
         event[1] = event[1][0:-1]
-        event[1] += event[2]
+        event[1] += event[2].strip()
         del event[2]
 
     # not_for_use = [

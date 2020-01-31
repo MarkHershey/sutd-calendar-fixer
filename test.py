@@ -1,4 +1,5 @@
 from ics import Calendar, Event
+
 c = Calendar()
 
 
@@ -18,11 +19,20 @@ def addEvent(name, time, description, location):
     e.location = location
     c.events.add(e)
 
-addEvent("Event 1", ("2020-02-01 00:00:00", "2020-02-01 02:00:00"), "description test 1", "LT1")
-addEvent("Event 2", ("2020-02-01 04:00:00", "2020-02-01 05:00:00"), "description test 2", "LT2")
+
+addEvent(
+    "Event 1",
+    ("2020-02-01 00:00:00", "2020-02-01 02:00:00"),
+    "description test 1",
+    "LT1",
+)
+addEvent(
+    "Event 2",
+    ("2020-02-01 04:00:00", "2020-02-01 05:00:00"),
+    "description test 2",
+    "LT2",
+)
 
 
-
-
-with open('my.ics', 'w') as my_file:
+with open("my.ics", "w") as my_file:
     my_file.writelines(c)

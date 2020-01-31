@@ -1,9 +1,11 @@
 import string
 
-def find_2nd(string, substring):
-   return string.find(substring, string.find(substring) + 1)
 
-def modifyEvent(event:list) -> list:
+def find_2nd(string, substring):
+    return string.find(substring, string.find(substring) + 1)
+
+
+def modifyEvent(event: list) -> list:
 
     # If SUMMARY break into 2 lines
     if len(event) == 8:
@@ -28,7 +30,7 @@ def modifyEvent(event:list) -> list:
         # create LOCATION line
         location = "LOCATION:" + event[1][location_start:] + "\n"
         # insert LOCATION line into the event
-        event.insert(2,location)
+        event.insert(2, location)
 
     # determine the string slicing end point at SUMMARY line
     summary_end = find_2nd(event[1], ":") - 3
@@ -39,6 +41,7 @@ def modifyEvent(event:list) -> list:
 
     # return formatted event
     return event
+
 
 def main():
 
@@ -100,7 +103,7 @@ def main():
         print(i)
 
     # create a new ics file
-    with open('new.ics', 'a') as the_file:
+    with open("new.ics", "a") as the_file:
         # write title
         the_file.write("BEGIN:VCALENDAR\n")
         # write events
@@ -109,6 +112,7 @@ def main():
                 the_file.write(line)
         # write the ending lines
         the_file.write("VERSION:2.0\nEND:VCALENDAR")
+
 
 if __name__ == "__main__":
     main()

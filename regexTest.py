@@ -10,6 +10,7 @@ import string
 # 'STATUS:CONFIRMED\n',
 # 'END:VEVENT\n']
 
+
 def modifyEvent(event):
 
     if len(event) == 8:
@@ -33,7 +34,7 @@ def modifyEvent(event):
     else:
         location_start += 6
         location = "LOCATION:" + event[1][location_start:-1] + "\n"
-        event.insert(2,location)
+        event.insert(2, location)
 
     summary_end = 0
 
@@ -44,6 +45,7 @@ def modifyEvent(event):
 
     event[1] = event[1][0:summary_end] + "\n"
     return event
+
 
 # not_for_use = [
 # 'BEGIN:VEVENT\n',

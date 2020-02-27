@@ -2,7 +2,8 @@ import requests
 import json
 import configparser as cfg
 
-class telegram_chatbot():
+
+class telegram_chatbot:
     def __init__(self, config):
         self.token = self.read_token_from_config_file(config)
         self.base = f"https://api.telegram.org/bot{self.token}/"
@@ -22,4 +23,4 @@ class telegram_chatbot():
     def read_token_from_config_file(self, config):
         parser = cfg.ConfigParser()
         parser.read(config)
-        return parser.get('creds', 'token')
+        return parser.get("creds", "token")

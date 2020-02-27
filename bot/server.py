@@ -3,7 +3,8 @@ import telegram
 import os
 
 update_id = None
-bot = telegram_chatbot('config.cfg')
+bot = telegram_chatbot("config.cfg")
+
 
 def make_reply(msg):
     reply = msg
@@ -19,12 +20,12 @@ while True:
             update_id = item["update_id"]
 
             try:
-                message = item['message']['text']
+                message = item["message"]["text"]
             except:
                 message = None
 
             try:
-                document = item['message']['document']
+                document = item["message"]["document"]
             except:
                 document = None
 
@@ -33,12 +34,12 @@ while True:
                 doc_type = document["mime_type"]
                 doc_id = document["file_id"]
                 doc_uid = document["file_unique_id"]
-                doc_size = document['file_size']
+                doc_size = document["file_size"]
 
             # actions
 
             # 1. reply the same message
-            from_ = item['message']['from']['id']
+            from_ = item["message"]["from"]["id"]
             reply = make_reply(message)
             bot.send_message(reply, from_)
 

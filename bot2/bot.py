@@ -1,15 +1,23 @@
 import logging
 import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, Filters
+from telegram.ext import (
+    Updater,
+    CommandHandler,
+    MessageHandler,
+    ConversationHandler,
+    Filters,
+)
 from datetime import datetime
 import icsFixer
 from config import CONFIG
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
 
 logger = logging.getLogger(__name__)
+
 
 def timestamp():
     now = str(datetime.now())
@@ -21,9 +29,11 @@ def timestamp():
             ts += i
     return ts
 
+
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
+
 
 def start(update, context):
     msg = """
@@ -38,8 +48,11 @@ First time here? Use /help
 /friends : get to know my friends.
 
 /source : view source / contribute.
-""".format(update.message.chat.first_name)
+""".format(
+        update.message.chat.first_name
+    )
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+
 
 def help(update, context):
     msg = """
@@ -63,6 +76,7 @@ Follow this step-by-step instruction:
 """
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
 
+
 def friends(update, context):
     msg = """
 I have some bot friends at SUTD, check them out!
@@ -75,12 +89,15 @@ I have some bot friends at SUTD, check them out!
 """
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
 
+
 def source(update, context):
     msg = "View source / contribute on [GitHub](https://github.com/MarkHershey/calendar-generator)"
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
 
+
 def echo(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+
 
 def ics(update, context):
     # get file type
@@ -96,12 +113,23 @@ def ics(update, context):
         # format the ics file
         new_file, number_of_events = icsFixer.fix(ts)
         # reply back
-        update.message.reply_text(f"{number_of_events} events successfully re-formatted!", parse_mode=telegram.ParseMode.MARKDOWN)
-        context.bot.send_document(chat_id=update.effective_chat.id, document=open(new_file, 'rb'))
-        update.message.reply_text(f"Now you can import this file into your Google/ Apple Calendar.", parse_mode=telegram.ParseMode.MARKDOWN)
+        update.message.reply_text(
+            f"{number_of_events} events successfully re-formatted!",
+            parse_mode=telegram.ParseMode.MARKDOWN,
+        )
+        context.bot.send_document(
+            chat_id=update.effective_chat.id, document=open(new_file, "rb")
+        )
+        update.message.reply_text(
+            f"Now you can import this file into your Google/ Apple Calendar.",
+            parse_mode=telegram.ParseMode.MARKDOWN,
+        )
 
     else:
-        update.message.reply_text("I can only digest `.ics` file for now.", parse_mode=telegram.ParseMode.MARKDOWN)
+        update.message.reply_text(
+            "I can only digest `.ics` file for now.",
+            parse_mode=telegram.ParseMode.MARKDOWN,
+        )
 
 
 def main():
@@ -130,5 +158,6 @@ def main():
     updater.start_polling()
     updater.idle()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def timestamp():
     now = str(datetime.now())
     ts = ""

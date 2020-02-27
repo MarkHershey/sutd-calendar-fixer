@@ -59,20 +59,18 @@ def help(update, context):
 Do you know that you can import your class schedule into your Google Calendar?
 
 You can download an importable `.ics` file from SUTD, but the original file is badly formatted and it won't look good on your calendar App.
+
 This bot helps you clean up the mess in the `.ics` file so that you will get a neat calendar view.
 
-Follow this step-by-step instruction:
+Follow the step-by-step instructions to download your schedule, then *come back and send the file you downloaded to this chat*.
 
 1. Visit [mymobile.sutd.edu.sg](mymobile.sutd.edu.sg)
-2. Choose `Student Log In` (a large green button)
+2. Choose *Student Log In* (a large green button)
 3. Use your SUTD Network ID (100xxxx) and password to log in
-4. Left-hand side menu (hamburger menu button) -> Choose `Schedule`z
-5. Top-right gear-like button -> Choose `Download Schedule`
+4. Left-hand side menu (hamburger menu button) -> Choose *Schedule*
+5. Top-right gear-like button -> Choose *Download Schedule*
 6. Select the term of schedule which you wish to download
-7. You will get a `schedule.ics` file.
-
-*Come back, send the file to me in this chat!*
-
+7. Send me your downloaded `schedule.ics`
 """
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
 
@@ -87,7 +85,7 @@ I have some bot friends at SUTD, check them out!
 
 @shimekiribot keeps an eye on your due days.
 """
-    update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+    update.message.reply_text(msg)
 
 
 def source(update, context):
@@ -121,7 +119,17 @@ def ics(update, context):
             chat_id=update.effective_chat.id, document=open(new_file, "rb")
         )
         update.message.reply_text(
-            f"Now you can import this file into your Google/ Apple Calendar.",
+            """*Fantastic, you can now import this `_new.ics` into your Google/ Apple Calendar App, but you need to do this on your computer.*
+
+Instructions for Google Calendar:
+
+1. Open [Google Calendar](https://calendar.google.com/) on Web.
+2. At the top right, click gear-like icon and then *Settings*.
+3. At the left, click *Import & Export*.
+4. Click *Select file from your computer* and select the `.ics` file you get from me.
+5. Choose which calendar to add the imported events to. By default, events will be imported into your primary calendar.
+6. Click *Import*.
+""",
             parse_mode=telegram.ParseMode.MARKDOWN,
         )
 

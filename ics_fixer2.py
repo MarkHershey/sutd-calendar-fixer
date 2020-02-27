@@ -1,6 +1,6 @@
 import string
 
-path = "Class2022_F02_Original/schedule_term1.ics"
+path = "REPLACE_ME"
 
 requiredLines = ("BEGIN:VEVENT", "SUMMARY:", "DTSTART:", "DTEND:", "UID:", "END:VEVENT")
 
@@ -92,8 +92,11 @@ def main():
         new_events.append(event)
 
     # print to verify
-    for i in new_events:
-        print(i)
+    for index, event in enumerate(new_events):
+        print(f"{index+1}: {event}")
+    print()
+    print(f"Total {len(new_events)} events")
+    print()
 
     # create long string for ics
     newContent = "BEGIN:VCALENDAR\n"
@@ -106,6 +109,8 @@ def main():
     with open("new.ics", "w") as the_file:
         # write title
         the_file.write(newContent)
+
+    return len(new_events)
 
 
 if __name__ == "__main__":

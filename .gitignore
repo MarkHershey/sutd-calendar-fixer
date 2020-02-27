@@ -1,5 +1,8 @@
+# project specific
+*.ics
 config.cfg
 config.json
+responseSample.json
 *.db
 
 # OS generated files #

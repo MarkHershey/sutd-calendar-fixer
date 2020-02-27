@@ -1,5 +1,6 @@
 from bot import telegram_chatbot
-from telegram import File
+import telegram
+import os
 
 update_id = None
 bot = telegram_chatbot('config.cfg')
@@ -48,8 +49,14 @@ while True:
                 if doc_type == "text/calendar" and doc_name[-4:] == ".ics":
                     # print(doc_name, doc_type, doc_id, doc_uid, doc_size, sep="\n")
                     bot.send_message(f".ics file detected \nuid: {doc_uid}", from_)
+                    # ics = File(doc_uid).download(custom_path="downloaded")
                     try:
                         ics = File(doc_id)
+                        print(ics)
+                        # ics.download()
+                    except:
+                        print("Failed to construct File object")
+                    try:
                         ics.download()
                     except:
                         print("Failed to download ics file to server")

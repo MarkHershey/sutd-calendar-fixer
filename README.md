@@ -1,9 +1,30 @@
-# SUTD Schedule ics Fixer
+# SUTD `schedule.ics` Fixer
 
-### Usage
+<img src="https://img.shields.io/github/license/MarkHershey/calendar-generator?style=plastic">
 
-convert your ics using this [telegram bot @sutd_ics_bot](https://t.me/sutd_ics_bot)
+--- 
 
+Do you know that you can import your class schedule into your Google Calendar?
+
+You can download a `schedule.ics` file from [mymobile.sutd.edu.sg](http://mymobile.sutd.edu.sg/), but the original file is badly formatted and it won't look good on your calendar App.
+
+This bot helps you clean up the mess in the `schedule.ics` file so that you will get a neat calendar view.
+
+| Before | After |
+| :---: | :---: |
+| <img src="before.png" height=auto width=auto> | <img src="after.png" height=auto width=auto> |
+
+
+## Usage
+
+Just talk to the [**Telegram bot (SUTD_ICS)**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
+
+## Contribute / Report issues
+
+**Pull requests, issue reporting, feature requests are very welcomed.**
+
+
+- [Create a New issue](https://github.com/MarkHershey/calendar-generator/issues)
 
 
 

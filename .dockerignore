@@ -1,0 +1,17 @@
+# project-specific
+archive/
+imgs/
+tests/
+venv/
+
+# Exclude files and directories whose names start with `temp` in any immediate subdirectory of the root.
+*/temp*
+
+# Exclude files and directories starting with `temp` from any subdirectory that is two levels below the root.
+*/*/temp*
+
+# Exclude files and directories in the root directory whose names are a one-character extension of `temp`.
+temp?
+
+# All markdown files except `README.md` are excluded from the context.
+*.md

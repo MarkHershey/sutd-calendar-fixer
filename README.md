@@ -17,17 +17,51 @@ This bot helps you clean up the mess in the `schedule.ics` file so that you will
 
 ## Usage
 
-Just talk to the [**Telegram bot (SUTD_ICS)**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
+Just talk to [**Telegram bot (SUTD_ICS)**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
 
 ## Contribute / Report issues
 
+[Create a New issue](https://github.com/MarkHershey/calendar-generator/issues)
+
 **Pull requests, issue reporting, feature requests are very welcomed.**
 
+## Development
 
-- [Create a New issue](https://github.com/MarkHershey/calendar-generator/issues)
+### Run in Docker
 
+**Change Telegram Bot Token**
+```bash
+nano src/config.conf
+```
 
+**Build Local Docker Image**
+```bash
+docker build -t "calendar-bot" .
+```
 
+**Run Container**
+```bash
+docker run -d --name calendar-bot calendar-bot
+```
+
+**Check Logs From Running Container**
+```bash
+docker exec -it calendar-bot bash
+```
+
+```bash
+cat log_error.log
+cat log_debug.log
+```
+
+**Stop Running Container**
+```bash
+docker stop calendar-bot
+```
+
+## License
+
+[MIT LICENSE - Copyright (c) 2020 Mark Huang](LICENSE)
 
 
 <!-- 1. Go to [mymobile.sutd.edu.sg](mymobile.sutd.edu.sg).

@@ -151,7 +151,7 @@ def ics(update, context):
             chat_id=update.effective_chat.id, document=open(new_file, "rb")
         )
         update.message.reply_text(
-            """*Fantastic, you can now import this `_new.ics` into your Google/ Apple Calendar App, but you need to do this on your computer.*
+            """*Fantastic, you can now import this `xxx_new.ics` into your Google/ Apple Calendar App, but you need to do this on your computer.*
 
 Instructions for Google Calendar:
 

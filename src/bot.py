@@ -1,4 +1,12 @@
-import logging
+# built-in modules
+import json
+from pathlib import Path
+from datetime import datetime
+
+# internal modules
+import calendarFixer
+
+# external modules
 import telegram
 from telegram.ext import (
     Updater,
@@ -7,21 +15,16 @@ from telegram.ext import (
     ConversationHandler,
     Filters,
 )
-from datetime import datetime
-import icsFixer
-from config import CONFIG
+from markkk.logger import logger
 
-# Enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
+curr_folder: Path = Path(__file__).parent.resolve()
+project_root: Path = curr_folder.parent
+usr_data_path: Path = project_root / "usr_data"
 
-logger = logging.getLogger(__name__)
-
-
-def timestamp():
-    now = str(datetime.now())
-    ts = ""
+def timestamp_now() -> str:
+    """ return a timestamp in string: YYYYMMDDHHMMSS"""
+    now: str = str(datetime.now())
+    ts: str = ""
     for i in now[:-7]:
         if i in (" ", "-", ":"):
             pass
@@ -29,10 +32,22 @@ def timestamp():
             ts += i
     return ts
 
+def user_log(update, ts:str = None, remarks: str = ""):
+    if not ts:
+        ts: str = timestamp_now()
+    first_name: str = update.message.chat.first_name
+    last_name: str = update.message.chat.last_name
+    username: str = update.message.chat.username
+    id: str = update.message.chat.id
+    name: str = f"{first_name} {last_name}"
+    record: str = f"{ts} - id({id}) - username({username}) - name({name}) - visited({remarks})\n"
+    user_log_fp: Path = usr_data_path / "user_visit_history.txt"
+    with user_log_fp.open(mode="a") as f:
+        f.write(record)
 
 def error(update, context):
     """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, context.error)
+    logger.warning(f'Update "{update}" caused error "{context.error}"')
 
 
 def start(update, context):
@@ -52,6 +67,7 @@ First time here? Use /help
         update.message.chat.first_name
     )
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+    user_log(update, remarks="/start")
 
 
 def help(update, context):
@@ -73,6 +89,7 @@ Follow the step-by-step instructions to download your schedule, then *come back 
 7. Send me your downloaded `schedule.ics`
 """
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+    user_log(update, remarks="/help")
 
 
 def friends(update, context):
@@ -86,15 +103,18 @@ I have some bot friends at SUTD, check them out!
 @shimekiribot keeps an eye on your due days.
 """
     update.message.reply_text(msg)
+    user_log(update, remarks="/friends")
 
 
 def source(update, context):
-    msg = "View source / contribute on [GitHub](https://github.com/MarkHershey/calendar-generator)"
+    msg = "View source / contribute / report issue on [GitHub](https://github.com/MarkHershey/calendar-generator)"
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+    user_log(update, remarks="/source")
 
 
 def echo(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+    user_log(update, remarks="echo")
 
 
 def ics(update, context):
@@ -103,13 +123,25 @@ def ics(update, context):
     # proceed only if the file is an ics
     if file_type == "text/calendar":
         # update.message.reply_text("Received!", parse_mode=telegram.ParseMode.MARKDOWN)
-        print("--- new ics received ---")
-        ts = timestamp()
+        logger.debug("New file (text/calendar) received.")
+        ts: str = timestamp_now()
         file_id = update.message.document.file_id
-        newFile = context.bot.get_file(file_id)
-        newFile.download(f"{ts}.ics")
+        tg_file_ref = context.bot.get_file(file_id)
+        download_filepath: Path = usr_data_path / f"{ts}.ics"
+        tg_file_ref.download(download_filepath)
         # format the ics file
-        new_file, number_of_events = icsFixer.fix(ts)
+        try:
+            new_file, number_of_events = calendarFixer.fix(download_filepath)
+            user_log(update, ts=ts, remarks="ics")
+        except Exception as e:
+            logger.error("re-formatting of calendar ics file has failed.")
+            logger.error(str(e))
+            update.message.reply_text(
+                "Sorry, I failed to parse your file, please report the issue from here: /source",
+                parse_mode=telegram.ParseMode.MARKDOWN,
+            )
+            return
+
         # reply back
         update.message.reply_text(
             f"{number_of_events} events successfully re-formatted!",
@@ -142,10 +174,25 @@ Instructions for Google Calendar:
 
 def main():
     """Start the bot"""
+    config_fp = Path("src/config.conf")
+    if not config_fp.is_file():
+        logger.error("No Config File is Found.")
+        return
+
+    try:
+        with config_fp.open() as f:
+            config = json.load(f)
+        bot_token: str = config["bot_token"]
+        if bot_token == "REPLACE_ME":
+            raise Exception()
+    except Exception as e:
+        logger.error("Failed getting bot token from 'config.conf'")
+        return
+
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater(CONFIG["bot_token"], use_context=True)
+    updater = Updater(bot_token, use_context=True)
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 

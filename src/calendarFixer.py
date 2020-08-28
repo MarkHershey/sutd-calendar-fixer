@@ -1,11 +1,19 @@
 import string
+from pathlib import Path
+from typing import List, Dict, Tuple
+from markkk.logger import logger
 
-path = "REPLACE_ME"
+requiredLines = (
+    "BEGIN:VEVENT",
+    "SUMMARY:",
+    "DTSTART:",
+    "DTEND:",
+    "UID:",
+    "END:VEVENT",
+)
 
-requiredLines = ("BEGIN:VEVENT", "SUMMARY:", "DTSTART:", "DTEND:", "UID:", "END:VEVENT")
 
-
-def find_2nd(string, substring):
+def find_2nd(string: str, substring: str):
     return string.find(substring, string.find(substring) + 1)
 
 
@@ -47,36 +55,44 @@ def modifyEvent(event: list) -> list:
     return event
 
 
-def main():
+def fix(file: str) -> Tuple[str, int]:
 
     # open ics file in read mode
-    try:
-        original = open(path, "r")
-    except:
-        print("--- ics file path invalid ---")
-        return
+    file = Path(file)
+    if not file.is_file():
+        logger.error(f"Invalid file path: '{file}'")
+        raise Exception(f"Invalid file path: '{file}'")
+    else:
+        file = file.resolve()
+
+    if str(file)[-4:] != ".ics":
+        logger.error(f"'{file}' is not an '.ics' file")
+        raise Exception(f"'{file}' is not an '.ics' file")
+
+    with file.open() as f:
+        original = f.readlines()
 
     # a large list of events
     Events = []
     # a list to store one event as lines of strings
     event = []
 
-    n = 0
+    key_index = 0
     # traverse original ics file line by line
     for line in original:
-
         # collecting useful lines for one event
-        if requiredLines[n] in line:
+        if requiredLines[key_index] in line:
             event.append(line)
-            if n <= len(requiredLines) - 2:
-                n += 1
-            elif n == len(requiredLines) - 1:
+            if key_index <= len(requiredLines) - 2:
+                key_index += 1
+            elif key_index == len(requiredLines) - 1:
                 Events.append(event)
                 event = []
-                n = 0
+                # reset key_index
+                key_index = 0
             else:
                 pass
-        elif requiredLines[n] not in line and n == 2:
+        elif requiredLines[key_index] not in line and key_index == 2:
             event.append(line)
         else:
             pass
@@ -91,14 +107,14 @@ def main():
         # append to new big list
         new_events.append(event)
 
-    # print to verify
-    for index, event in enumerate(new_events):
-        print(f"{index+1}: {event}")
-    print()
-    print(f"Total {len(new_events)} events")
-    print()
+    # # print to verify
+    # for index, event in enumerate(new_events):
+    #     print(f"{index+1}: {event}")
+    # print()
+    # print(f"Total {len(new_events)} events")
+    # print()
 
-    # create long string for ics
+    # create the final long string for ics
     newContent = "BEGIN:VCALENDAR\n"
     for event in new_events:
         for line in event:
@@ -106,12 +122,11 @@ def main():
     newContent += "VERSION:2.0\nEND:VCALENDAR"
 
     # create a new ics file
-    with open("new.ics", "w") as the_file:
-        # write title
-        the_file.write(newContent)
+    folder: Path = file.parent
+    export_fp: Path = folder / (file.stem + "_new.ics")
+    with export_fp.open(mode="w") as f:
+        f.write(newContent)
 
-    return len(new_events)
+    logger.debug(f"Successfully exported: {export_fp}")
 
-
-if __name__ == "__main__":
-    main()
+    return export_fp, len(new_events)

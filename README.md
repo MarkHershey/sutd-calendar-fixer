@@ -2,7 +2,7 @@
 
 <img src="https://img.shields.io/github/license/MarkHershey/calendar-generator?style=plastic">
 
---- 
+---
 
 Do you know that you can import your class schedule into your Google Calendar?
 
@@ -12,7 +12,7 @@ This bot helps you clean up the mess in the `schedule.ics` file so that you will
 
 | Before | After |
 | :---: | :---: |
-| <img src="before.png" height=auto width=auto> | <img src="after.png" height=auto width=auto> |
+| <img src="imgs/before.png" height=auto width=auto> | <img src="imgs/after.png" height=auto width=auto> |
 
 
 ## Usage

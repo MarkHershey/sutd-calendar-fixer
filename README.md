@@ -50,8 +50,8 @@ docker exec -it calendar-bot bash
 ```
 
 ```bash
-cat log_error.log
-cat log_debug.log
+cat logs/error.log
+cat logs/debug.log
 ```
 
 **Stop Running Container**

@@ -1,4 +1,5 @@
 # built-in modules
+import os
 import json
 from pathlib import Path
 from datetime import datetime
@@ -20,6 +21,11 @@ from markkk.logger import logger
 curr_folder: Path = Path(__file__).parent.resolve()
 project_root: Path = curr_folder.parent
 usr_data_path: Path = project_root / "usr_data"
+logs_path: Path = project_root / "logs"
+
+if not logs_path.is_dir():
+    os.mkdir(str(logs_path))
+
 
 def timestamp_now() -> str:
     """ return a timestamp in string: YYYYMMDDHHMMSS"""
@@ -32,7 +38,8 @@ def timestamp_now() -> str:
             ts += i
     return ts
 
-def user_log(update, ts:str = None, remarks: str = ""):
+
+def user_log(update, ts: str = None, remarks: str = ""):
     if not ts:
         ts: str = timestamp_now()
     first_name: str = update.message.chat.first_name
@@ -41,9 +48,10 @@ def user_log(update, ts:str = None, remarks: str = ""):
     id: str = update.message.chat.id
     name: str = f"{first_name} {last_name}"
     record: str = f"{ts} - id({id}) - username({username}) - name({name}) - visited({remarks})\n"
-    user_log_fp: Path = usr_data_path / "user_visit_history.txt"
+    user_log_fp: Path = logs_path / "user_visit_history.txt"
     with user_log_fp.open(mode="a") as f:
         f.write(record)
+
 
 def error(update, context):
     """Log Errors caused by Updates."""

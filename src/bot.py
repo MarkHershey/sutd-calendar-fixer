@@ -25,6 +25,8 @@ logs_path: Path = project_root / "logs"
 
 if not logs_path.is_dir():
     os.mkdir(str(logs_path))
+if not usr_data_path.is_dir():
+    os.mkdir(str(logs_path))
 
 
 def timestamp_now() -> str:

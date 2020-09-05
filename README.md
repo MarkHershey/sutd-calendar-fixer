@@ -17,7 +17,7 @@ This bot helps you clean up the mess in the `schedule.ics` file so that you will
 
 ## Usage
 
-Just talk to [**Telegram bot (SUTD_ICS)**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
+Just talk to [**this telegram bot (@sutd_ics_bot)**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
 
 ## Contribute / Report issues
 

@@ -174,6 +174,7 @@ def fix(ics_path: str):
         f.write(new_content)
 
     logger.debug(f"Successfully exported: {export_fp}")
+    return export_fp, len(parsed_event_list)
 
 
 if __name__ == "__main__":

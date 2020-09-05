@@ -3,6 +3,7 @@ archive/
 imgs/
 tests/
 venv/
+old/
 
 # Exclude files and directories whose names start with `temp` in any immediate subdirectory of the root.
 */temp*

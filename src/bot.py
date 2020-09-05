@@ -88,15 +88,14 @@ You can download an importable `.ics` file from SUTD, but the original file is b
 
 This bot helps you clean up the mess in the `.ics` file so that you will get a neat calendar view.
 
-Follow the step-by-step instructions to download your schedule, then *come back and send the file you downloaded to this chat*.
+Follow the step-by-step instructions to download your schedule, then *come back and send the file you downloaded to me (this chat)*.
 
-1. Visit [mymobile.sutd.edu.sg](mymobile.sutd.edu.sg)
-2. Choose *Student Log In* (a large green button)
-3. Use your SUTD Network ID (100xxxx) and password to log in
-4. Left-hand side menu (hamburger menu button) -> Choose *Schedule*
-5. Top-right gear-like button -> Choose *Download Schedule*
-6. Select the term of schedule which you wish to download
-7. Send me your downloaded `schedule.ics`
+1. Visit [https://mymobile.sutd.edu.sg/app/dashboard](https://mymobile.sutd.edu.sg/app/dashboard)
+2. Use your SUTD Network ID (100xxxx) and password to log in
+3. Left-hand side menu (hamburger menu button) -> Choose *Schedule*
+4. Top-right gear-like button -> Choose *Download Schedule*
+
+Send me your downloaded `schedule.ics`
 """
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
     user_log(update, remarks="/help")

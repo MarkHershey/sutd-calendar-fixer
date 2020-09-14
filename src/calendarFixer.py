@@ -94,8 +94,15 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
         if key not in event:
             continue
         line_value = line[colon_index + 1 :]
-        event[key] = line_value
-
+        # timezone fix
+        if key == "DTSTART" or key == "DTEND" or key == "EXDATE":
+            event[key + ";TZID=Asia/Singapore"] = line_value
+        elif key == "RRULE":
+            # TODO: convert UNTIL field to GMT (add Z ad the back as well)
+            # see: https://www.kanzaki.com/docs/ical/recur.html
+            event[key] = line_value
+        else:
+            event[key] = line_value
     # correct summary
     original_summary = event.get("SUMMARY")
     logger.info(original_summary)
@@ -144,8 +151,30 @@ def generate_new_content_to_write(parsed_event_list: List[Dict]) -> str:
         end = "END:VEVENT"
         lines_to_write.append(end)
 
-    lines_to_write.insert(0, "BEGIN:VCALENDAR")
-    lines_to_write.append("VERSION:2.0\nEND:VCALENDAR")
+    begin_calendar_marker = "BEGIN:VCALENDAR"
+    # add timezone information
+    timezone_information = [
+        "BEGIN:VTIMEZONE",
+        "TZID:Asia/Singapore",
+        "BEGIN:DAYLIGHT",
+        "TZOFFSETFROM:+0700",
+        "DTSTART:19330101T000000",
+        "TZNAME:GMT+8",
+        "TZOFFSETTO:+0720",
+        "RDATE:19330101T000000",
+        "END:DAYLIGHT",
+        "BEGIN:STANDARD",
+        "TZOFFSETFROM:+0730",
+        "DTSTART:19820101T000000",
+        "TZNAME:SGT",
+        "TZOFFSETTO:+0800",
+        "RDATE:19820101T000000",
+        "END:STANDARD",
+        "END:VTIMEZONE",
+    ]
+    version_marker = "VERSION:2.0"
+    end_calendar_marker = "END:VCALENDAR"
+    lines_to_write = [begin_calendar_marker] + timezone_information + lines_to_write + [version_marker, end_calendar_marker]
 
     string_to_write = "\n".join(lines_to_write)
     return string_to_write

@@ -103,6 +103,7 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
             event[key] = line_value
         else:
             event[key] = line_value
+
     # correct summary
     original_summary = event.get("SUMMARY")
     logger.info(original_summary)
@@ -132,7 +133,7 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
     return event
 
 
-def parse_event_list(event_list: List[List[str]]) -> List[Dict]:
+def parse_event_list(event_list: List[List[str]]) -> List[dict]:
     parsed_event_list = []
     for event in event_list:
         parsed_event = parse_single_event(event)
@@ -140,7 +141,7 @@ def parse_event_list(event_list: List[List[str]]) -> List[Dict]:
     return parsed_event_list
 
 
-def generate_new_content_to_write(parsed_event_list: List[Dict]) -> str:
+def generate_new_content_to_write(parsed_event_list: List[dict]) -> str:
     lines_to_write: List[str] = []
     for event in parsed_event_list:
         start = "BEGIN:VEVENT"
@@ -152,6 +153,9 @@ def generate_new_content_to_write(parsed_event_list: List[Dict]) -> str:
         lines_to_write.append(end)
 
     begin_calendar_marker = "BEGIN:VCALENDAR"
+    end_calendar_marker = "END:VCALENDAR"
+    version_marker = "VERSION:2.0"
+    
     # add timezone information
     timezone_information = [
         "BEGIN:VTIMEZONE",
@@ -172,11 +176,9 @@ def generate_new_content_to_write(parsed_event_list: List[Dict]) -> str:
         "END:STANDARD",
         "END:VTIMEZONE",
     ]
-    version_marker = "VERSION:2.0"
-    end_calendar_marker = "END:VCALENDAR"
-    lines_to_write = [begin_calendar_marker] + timezone_information + lines_to_write + [version_marker, end_calendar_marker]
-
-    string_to_write = "\n".join(lines_to_write)
+    
+    lines_to_write: List[str] = [begin_calendar_marker] + timezone_information + lines_to_write + [version_marker, end_calendar_marker]
+    string_to_write: str = "\n".join(lines_to_write)
     return string_to_write
 
 
@@ -207,4 +209,4 @@ def fix(ics_path: str):
 
 
 if __name__ == "__main__":
-    fix("tests/resources/original_ics/term4.ics")
+    fix("tests/resources/ics/term4.ics")

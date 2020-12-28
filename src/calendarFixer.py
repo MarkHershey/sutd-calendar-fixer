@@ -1,8 +1,9 @@
-from pathlib import Path
-from typing import List, Dict, Tuple
-from markkk.logger import logger
-from pprint import pprint
 from collections import OrderedDict
+from pathlib import Path
+from pprint import pprint
+from typing import Dict, List, Tuple
+
+from markkk.logger import logger
 
 
 def fix_broken_lines(event_lines_list: List):
@@ -104,7 +105,7 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
         else:
             event[key] = line_value
 
-    # correct summary
+    # Correct 'Summary'
     original_summary = event.get("SUMMARY")
     logger.info(original_summary)
     if original_summary:
@@ -122,12 +123,10 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
     if event.get("SUMMARY") == event.get("DESCRIPTION"):
         event.pop("DESCRIPTION")
 
-    unused = []
-    for key in event.keys():
-        if not event.get(key):
-            unused.append(key)
-
-    for key in unused:
+    # get keys with 'None' value
+    unused_keys = [key for key in event.keys() if not event.get(key)]
+    # remove unused keys
+    for key in unused_keys:
         event.pop(key)
 
     return event
@@ -155,7 +154,7 @@ def generate_new_content_to_write(parsed_event_list: List[dict]) -> str:
     begin_calendar_marker = "BEGIN:VCALENDAR"
     end_calendar_marker = "END:VCALENDAR"
     version_marker = "VERSION:2.0"
-    
+
     # add timezone information
     timezone_information = [
         "BEGIN:VTIMEZONE",
@@ -176,8 +175,13 @@ def generate_new_content_to_write(parsed_event_list: List[dict]) -> str:
         "END:STANDARD",
         "END:VTIMEZONE",
     ]
-    
-    lines_to_write: List[str] = [begin_calendar_marker] + timezone_information + lines_to_write + [version_marker, end_calendar_marker]
+
+    lines_to_write: List[str] = (
+        [begin_calendar_marker]
+        + timezone_information
+        + lines_to_write
+        + [version_marker, end_calendar_marker]
+    )
     string_to_write: str = "\n".join(lines_to_write)
     return string_to_write
 

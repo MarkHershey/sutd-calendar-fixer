@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def timestamp_now() -> str:
     """ return a timestamp in string: YYYYMMDDHHMMSS"""
     now: str = str(datetime.now())
@@ -11,5 +12,6 @@ def timestamp_now() -> str:
         else:
             ts += i
     return ts
+
 
 print(type(timestamp_now()))

@@ -1,22 +1,22 @@
 # built-in modules
-import os
 import json
-from pathlib import Path
+import os
 from datetime import datetime
-
-# internal modules
-import calendarFixer
+from pathlib import Path
 
 # external modules
 import telegram
+from markkk.logger import logger
 from telegram.ext import (
-    Updater,
     CommandHandler,
-    MessageHandler,
     ConversationHandler,
     Filters,
+    MessageHandler,
+    Updater,
 )
-from markkk.logger import logger
+
+# internal modules
+import calendarFixer
 
 curr_folder: Path = Path(__file__).parent.resolve()
 project_root: Path = curr_folder.parent
@@ -49,7 +49,9 @@ def user_log(update, ts: str = None, remarks: str = ""):
     username: str = update.message.chat.username
     id: str = update.message.chat.id
     name: str = f"{first_name} {last_name}"
-    record: str = f"{ts} - id({id}) - username({username}) - name({name}) - visited({remarks})\n"
+    record: str = (
+        f"{ts} - id({id}) - username({username}) - name({name}) - visited({remarks})\n"
+    )
     user_log_fp: Path = logs_path / "user_visit_history.txt"
     with user_log_fp.open(mode="a") as f:
         f.write(record)

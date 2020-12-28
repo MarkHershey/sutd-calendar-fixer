@@ -1,7 +1,6 @@
 from collections import OrderedDict
 from pathlib import Path
-from pprint import pprint
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 from markkk.logger import logger
 
@@ -78,34 +77,48 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
 
     event = OrderedDict(
         {
-            "SUMMARY": None,
-            "DESCRIPTION": None,
-            "LOCATION": None,
-            "DTSTART": None,
-            "DTEND": None,
-            "UID": None,
-            "RRULE": None,
-            "EXDATE": None,
+            "SUMMARY": None,  # Title
+            "DESCRIPTION": None,  # Description
+            "LOCATION": None,  # Location
+            "DTSTART": None,  # Date Start
+            "DTEND": None,  # Date End
+            "UID": None,  # Unique Identifier
+            "RRULE": None,  # Recurring Rule
+            "EXDATE": None,  # Expiring Date
         }
     )
 
     for line in event_lines:
+        """ Each line looks like 'KEY:LINE_VALUE' """
+
+        # find the index of the colon separating KEY and LINE_VALUE
         colon_index = line.find(":")
+
+        # Get KEY literal
         key = line[:colon_index]
+
         if key not in event:
+            # skip unnecessary keys
             continue
+
+        # Get LINE_VALUE literal
         line_value = line[colon_index + 1 :]
+
         # timezone fix
         if key == "DTSTART" or key == "DTEND" or key == "EXDATE":
             event[key + ";TZID=Asia/Singapore"] = line_value
+
+        # recurring rule fix
         elif key == "RRULE":
+            # Ref: https://www.kanzaki.com/docs/ical/recur.html
             # TODO: convert UNTIL field to GMT (add Z ad the back as well)
-            # see: https://www.kanzaki.com/docs/ical/recur.html
+            # TODO: recurring rule validation
             event[key] = line_value
+
         else:
             event[key] = line_value
 
-    # Correct 'Summary'
+    # 'Summary' fix
     original_summary = event.get("SUMMARY")
     logger.info(original_summary)
     if original_summary:

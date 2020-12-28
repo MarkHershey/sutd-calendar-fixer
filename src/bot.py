@@ -9,7 +9,6 @@ import telegram
 from markkk.logger import logger
 from telegram.ext import (
     CommandHandler,
-    ConversationHandler,
     Filters,
     MessageHandler,
     Updater,
@@ -59,7 +58,7 @@ def user_log(update, ts: str = None, remarks: str = ""):
 
 def error(update, context):
     """Log Errors caused by Updates."""
-    logger.warning(f'Update "{update}" caused error "{context.error}"')
+    logger.error(f'Update "{update}" caused error "{context.error}"')
 
 
 def start(update, context):

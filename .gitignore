@@ -1,9 +1,8 @@
 # project specific
 archive/
+logs/
 
-
-# OS generated files #
-######################
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -11,9 +10,6 @@ archive/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-
-### Python gitignore from https://github.com/github/gitignore/blob/master/Python.gitignore
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

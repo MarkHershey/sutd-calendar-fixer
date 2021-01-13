@@ -8,6 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# VOLUME ["/usr_data"]
-
 CMD ["python", "src/bot.py"]

@@ -1,0 +1,14 @@
+version: "3"
+services:
+  temp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: calendar-bot
+    # restart: unless-stopped
+    restart: "no"
+    environment:
+      TZ: 'Asia/Singapore'
+      BOT_TOKEN: 'REPLACE_ME'
+    volumes:
+      - './logs:/usr/src/app/logs'

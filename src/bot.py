@@ -184,19 +184,25 @@ Instructions for Google Calendar:
 
 def main():
     """Start the bot"""
-    config_fp = Path("src/config.conf")
-    if not config_fp.is_file():
-        logger.error("No Config File is Found.")
-        return
 
-    try:
+    logger.info("Getting bot_token from environment")
+    bot_token = os.environ.get("BOT_TOKEN", None)
+
+    if bot_token == "REPLACE_ME" or bot_token is None:
+
+        logger.info("Getting bot_token from src/config.conf")
+        config_fp = curr_folder / "config.conf"
+
+        if not config_fp.is_file():
+            logger.error("bot_token not found: No Config File is Found.")
+            return
+
         with config_fp.open() as f:
             config = json.load(f)
-        bot_token: str = config["bot_token"]
-        if bot_token == "REPLACE_ME":
-            raise Exception()
-    except Exception as e:
-        logger.error("Failed getting bot token from 'config.conf'")
+        bot_token = config.get("bot_token", None)
+
+    if bot_token == "REPLACE_ME" or bot_token is None:
+        logger.error("bot_token not found: Failed getting bot token from environment and 'config.conf'")
         return
 
     # Create the Updater and pass it your bot's token.

@@ -4,28 +4,45 @@ import os
 from datetime import datetime
 from pathlib import Path
 
+# internal modules
+import calendarFixer
+
 # external modules
 import telegram
 from markkk.logger import logger
-from telegram.ext import (
-    CommandHandler,
-    Filters,
-    MessageHandler,
-    Updater,
-)
-
-# internal modules
-import calendarFixer
+from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 curr_folder: Path = Path(__file__).parent.resolve()
 project_root: Path = curr_folder.parent
 usr_data_path: Path = project_root / "usr_data"
 logs_path: Path = project_root / "logs"
+user_log_fp: Path = logs_path / "user_visit_history.txt"
 
 if not logs_path.is_dir():
     os.mkdir(str(logs_path))
 if not usr_data_path.is_dir():
     os.mkdir(str(usr_data_path))
+
+unique_users = set()
+interaction_counter = 0
+
+
+############################################################################################
+
+
+def load_stats():
+    global interaction_counter
+    global unique_users
+
+    if user_log_fp.is_file():
+        with user_log_fp.open(mode="r") as f:
+            data = f.readlines()
+            interaction_counter = len(data)
+            users = [i.split(" - ")[2][9:-1] for i in data]
+            unique_users = set(users)
+
+    print(f"{interaction_counter} interactions")
+    print(f"{len(unique_users)} unique users")
 
 
 def timestamp_now() -> str:
@@ -41,17 +58,23 @@ def timestamp_now() -> str:
 
 
 def user_log(update, ts: str = None, remarks: str = ""):
+    global interaction_counter
+    global unique_users
+
     if not ts:
         ts: str = timestamp_now()
     first_name: str = update.message.chat.first_name
     last_name: str = update.message.chat.last_name
     username: str = update.message.chat.username
-    id: str = update.message.chat.id
+    _id: str = update.message.chat.id
     name: str = f"{first_name} {last_name}"
+
+    unique_users.add(username)
+    interaction_counter += 1
+
     record: str = (
-        f"{ts} - id({id}) - username({username}) - name({name}) - visited({remarks})\n"
+        f"{ts} - id({_id}) - username({username}) - name({name}) - visited({remarks})\n"
     )
-    user_log_fp: Path = logs_path / "user_visit_history.txt"
     with user_log_fp.open(mode="a") as f:
         f.write(record)
 
@@ -79,6 +102,15 @@ First time here? Use /help
     )
     update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
     user_log(update, remarks="/start")
+
+
+def stats(update, context):
+    global interaction_counter
+    global unique_users
+
+    msg = f"To date, I have served {len(unique_users)} unique users in {interaction_counter} interactions."
+    update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+    user_log(update, remarks="/stats")
 
 
 def help(update, context):
@@ -202,8 +234,12 @@ def main():
         bot_token = config.get("bot_token", None)
 
     if bot_token == "REPLACE_ME" or bot_token is None:
-        logger.error("bot_token not found: Failed getting bot token from environment and 'config.conf'")
+        logger.error(
+            "bot_token not found: Failed getting bot token from environment and 'config.conf'"
+        )
         return
+
+    load_stats()
 
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
@@ -215,6 +251,7 @@ def main():
     # Command Handlers
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help))
+    dispatcher.add_handler(CommandHandler("stats", stats))
     dispatcher.add_handler(CommandHandler("friends", friends))
     dispatcher.add_handler(CommandHandler("source", source))
 

@@ -12,3 +12,4 @@ services:
       BOT_TOKEN: 'REPLACE_ME'
     volumes:
       - './logs:/usr/src/app/logs'
+      - './usr_data:/usr/src/app/usr_data'

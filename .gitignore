@@ -1,6 +1,7 @@
 # project specific
 archive/
 logs/
+usr_data/
 
 # OS generated files
 .DS_Store

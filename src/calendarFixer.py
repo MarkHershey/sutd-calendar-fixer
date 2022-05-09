@@ -103,26 +103,15 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
 
         # find the index of the colon separating KEY and LINE_VALUE
         colon_index = line.find(":")
-
-        # Get KEY literal
+        # get KEY literal
         key = line[:colon_index]
-
+        # skip unnecessary keys
         if key not in event:
-            # skip unnecessary keys
             continue
-
-        # Get LINE_VALUE literal
+        # get LINE_VALUE literal
         line_value = line[colon_index + 1 :]
-
-        # recurring rule fix
-        if key == "RRULE":
-            # Ref: https://www.kanzaki.com/docs/ical/recur.html
-            # TODO: convert UNTIL field to GMT (add Z at the back as well)
-            # TODO: recurring rule validation
-            event[key] = line_value
-
-        else:
-            event[key] = line_value
+        # store LINE_VALUE in event dict
+        event[key] = line_value
 
     # 'Summary' fix
     original_summary = event.get("SUMMARY")
@@ -141,6 +130,21 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
 
     if event.get("SUMMARY") == event.get("DESCRIPTION"):
         event.pop("DESCRIPTION")
+
+    # Fix useless recurring rules
+    if event.get("RRULE"):
+        rrule_value: str = event.get("RRULE")
+        # check when the recurring rule ends
+        if "UNTIL=" in rrule_value:
+            s_idx = rrule_value.find("UNTIL=")
+            e_idx = rrule_value.find(";", s_idx)
+            s_idx += 6
+        recurring_until = rrule_value[s_idx:e_idx]
+        # if the recurring rule ends the same time as the event end time,
+        # it is a redundant recurring rule
+        if recurring_until == event.get("DTEND"):
+            event["RRULE"] = None
+            event["EXDATE"] = None
 
     # get keys with 'None' value
     unused_keys = [key for key in event.keys() if not event.get(key)]
@@ -237,3 +241,4 @@ def fix(ics_path: str) -> Tuple[Path, int]:
 
 if __name__ == "__main__":
     fix("tests/resources/ics/term4.ics")
+    fix("tests/resources/ics/term8.ics")

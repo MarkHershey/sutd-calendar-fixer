@@ -1,12 +1,15 @@
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from markkk.logger import logger
 
 
-def fix_broken_lines(event_lines_list: List):
-    keywords = (
+def fix_broken_lines(event_lines_list: List[str]) -> List[str]:
+    """Fix broken lines if any"""
+
+    # list of expected keywords in SUTD-generated ics files
+    KEYWORDS = (
         "BEGIN",
         "DESCRIPTION",
         "SUMMARY",
@@ -22,18 +25,25 @@ def fix_broken_lines(event_lines_list: List):
         "EXDATE",
         "END",
     )
-    fixed = []
+
+    fixed: List[str] = []
+
     for line in event_lines_list:
         line = line.strip()
         colon_index = line.find(":")
         if colon_index != -1:
             key = line[:colon_index]
-            if key in keywords:
+            if key in KEYWORDS:
                 fixed.append(line)
             else:
+                # this is a broken line
+                # it should join with the previous line
                 fixed[-1] = fixed[-1] + line
         else:
+            # this is a broken line too
+            # it should join with the previous line
             fixed[-1] = fixed[-1] + line
+
     return fixed
 
 
@@ -199,7 +209,7 @@ def generate_new_content_to_write(parsed_event_list: List[dict]) -> str:
     return string_to_write
 
 
-def fix(ics_path: str):
+def fix(ics_path: str) -> Tuple[Path, int]:
     ics_path = Path(ics_path)
     if not ics_path.is_file():
         logger.error(f"Invalid ics_path path: '{ics_path}'")

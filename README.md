@@ -1,6 +1,7 @@
 # SUTD `schedule.ics` Fixer
 
-<img src="https://img.shields.io/github/license/MarkHershey/calendar-generator?style=plastic">
+[![](https://img.shields.io/badge/license-MIT-blue)](https://github.com/MarkHershey/sutd-calendar-fixer/blob/master/LICENSE)
+[![](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black)
 
 ---
 
@@ -16,7 +17,27 @@ This bot helps you clean up the mess in the `schedule.ics` file so that you will
 
 ## Usage
 
+### Interactive:
+
 Just talk to [**this telegram bot (@sutd_ics_bot)**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
+
+### Manual:
+
+In case the telegram bot is not working, you can also do it manually by following the steps below:
+
+1. clone this repository to your local machine
+    ```bash
+    git clone https://github.com/MarkHershey/sutd-calendar-fixer.git
+    ```
+2. install dependencies:
+    ```bash
+    cd sutd-calendar-fixer
+    python3 -m pip install -r requirements.txt
+    ```
+3. run the following command:
+    ```bash
+    python3 src/calendarFixer.py "path/to/your/schedule.ics"
+    ```
 
 ## Report issues
 
@@ -25,6 +46,8 @@ If the bot isn't working as you expected, please [Create a New issue](https://gi
 ---
 
 ## Development
+
+Pull requests, issue reporting, feature requests are very welcomed.
 
 ### Dependencies
 
@@ -46,14 +69,6 @@ If the bot isn't working as you expected, please [Create a New issue](https://gi
 cat "logs/debug.txt"
 ```
 
-### TODOs
-
--   [x] Timezone Info Injection
--   [ ] Convert Polling to Webhooks
--   [ ] Recurring Event Validation
-
-Pull requests, issue reporting, feature requests are very welcomed.
-
 ## License
 
-[MIT LICENSE - Copyright (c) 2020-2021 Mark Huang](LICENSE)
+[MIT LICENSE - Copyright (c) 2020-2022 Mark Huang](LICENSE)

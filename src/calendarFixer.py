@@ -240,5 +240,13 @@ def fix(ics_path: str) -> Tuple[Path, int]:
 
 
 if __name__ == "__main__":
-    fix("tests/resources/ics/term4.ics")
-    fix("tests/resources/ics/term8.ics")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Fix ics file")
+    parser.add_argument(
+        "ics_path",
+        type=str,
+        help="specify ics file path",
+    )
+    args = parser.parse_args()
+    fix(args.ics_path)

@@ -84,12 +84,12 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
             "DTEND": None,  # Date End
             "UID": None,  # Unique Identifier
             "RRULE": None,  # Recurring Rule
-            "EXDATE": None,  # Expiring Date
+            "EXDATE": None,  # Exception Date
         }
     )
 
     for line in event_lines:
-        """ Each line looks like 'KEY:LINE_VALUE' """
+        """Each line looks like 'KEY:LINE_VALUE'"""
 
         # find the index of the colon separating KEY and LINE_VALUE
         colon_index = line.find(":")
@@ -104,14 +104,10 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
         # Get LINE_VALUE literal
         line_value = line[colon_index + 1 :]
 
-        # timezone fix
-        if key == "DTSTART" or key == "DTEND" or key == "EXDATE":
-            event[key + ";TZID=Asia/Singapore"] = line_value
-
         # recurring rule fix
-        elif key == "RRULE":
+        if key == "RRULE":
             # Ref: https://www.kanzaki.com/docs/ical/recur.html
-            # TODO: convert UNTIL field to GMT (add Z ad the back as well)
+            # TODO: convert UNTIL field to GMT (add Z at the back as well)
             # TODO: recurring rule validation
             event[key] = line_value
 
@@ -159,7 +155,11 @@ def generate_new_content_to_write(parsed_event_list: List[dict]) -> str:
         start = "BEGIN:VEVENT"
         lines_to_write.append(start)
         for key, value in event.items():
-            line = f"{key}:{value}"
+            if key in ("DTSTART", "DTEND", "EXDATE"):
+                # Timezone fix: enforce Asia/Singapore
+                line = f"{key};TZID=Asia/Singapore:{value}"
+            else:
+                line = f"{key}:{value}"
             lines_to_write.append(line)
         end = "END:VEVENT"
         lines_to_write.append(end)

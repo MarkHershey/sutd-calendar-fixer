@@ -1,16 +1,15 @@
-# built-in modules
 import json
 import os
 from datetime import datetime
 from pathlib import Path
 
-# internal modules
-import calendarFixer
-
 # external modules
 import telegram
 from markkk.logger import logger
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
+
+# internal modules
+import calendarFixer
 
 curr_folder: Path = Path(__file__).parent.resolve()
 project_root: Path = curr_folder.parent
@@ -46,7 +45,7 @@ def load_stats():
 
 
 def timestamp_now() -> str:
-    """ return a timestamp in string: YYYYMMDDHHMMSS"""
+    """return a timestamp in string: YYYYMMDDHHMMSS"""
     now: str = str(datetime.now())
     ts: str = ""
     for i in now[:-7]:

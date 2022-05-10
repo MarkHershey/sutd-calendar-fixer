@@ -1,0 +1,12 @@
+# YAML 1.2
+---
+cff-version: 1.2.0
+message: "If you use this repository, please cite it as below."
+authors:
+    - affiliation: "Singapore University of Technology and Design"
+      family-names: "Huang"
+      given-names: "Mark He"
+title: "SUTD Class Schedule ICS Fixer"
+version: 1.0.0
+date-released: 2020-01-31
+url: "https://github.com/MarkHershey/sutd-calendar-fixer"

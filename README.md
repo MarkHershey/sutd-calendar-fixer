@@ -19,7 +19,9 @@ This bot helps you clean up the mess in the `schedule.ics` file so that you will
 
 ### Interactive:
 
-Just talk to [**this telegram bot (@sutd_ics_bot)**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
+Just talk to the telegram bot [**@sutd_ics_bot**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
+
+> If the bot isn't working as you expected, please [create a new issue](https://github.com/MarkHershey/calendar-generator/issues) and elaborate your case.
 
 ### Manual:
 
@@ -39,12 +41,6 @@ In case the telegram bot is not working, you can also do it manually by followin
     python3 src/calendarFixer.py "path/to/your/schedule.ics"
     ```
 
-## Report issues
-
-If the bot isn't working as you expected, please [Create a New issue](https://github.com/MarkHershey/calendar-generator/issues).
-
----
-
 ## Development
 
 Pull requests, issue reporting, feature requests are very welcomed.
@@ -57,15 +53,16 @@ Pull requests, issue reporting, feature requests are very welcomed.
 ### Run in Docker
 
 1. Modify `docker-compose.yml` file, substitute your own Telegram `BOT_TOKEN`.
-2. run `docker-compose build`
-3. run `docker-compose up -d`
+2. To launch bot, run `docker-compose up --build -d`
+3. To terminate bot, run `docker-compose down --rmi local`
 
 ### Check logs
 
 ```bash
 cat "logs/debug.txt"
+cat "logs/error.txt"
 ```
 
 ## License
 
-[MIT LICENSE - Copyright (c) 2020-2022 Mark Huang](LICENSE)
+This project is licensed under the [MIT LICENSE](LICENSE).

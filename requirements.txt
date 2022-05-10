@@ -1,2 +1,2 @@
-markkk
-python-telegram-bot
+puts==0.0.8
+python-telegram-bot==13.11

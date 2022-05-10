@@ -2,7 +2,9 @@ from collections import OrderedDict
 from pathlib import Path
 from typing import Dict, List, Tuple
 
-from markkk.logger import logger
+from puts import get_logger
+
+LOGGER = get_logger()
 
 
 def fix_broken_lines(event_lines_list: List[str]) -> List[str]:
@@ -50,7 +52,7 @@ def fix_broken_lines(event_lines_list: List[str]) -> List[str]:
 def get_event_list(ics_path: str) -> List[List[str]]:
     ics_path = Path(ics_path)
     if not ics_path.is_file():
-        logger.error("File does not exist.")
+        LOGGER.error("File does not exist.")
 
     with ics_path.open() as f:
         lines = f.readlines()
@@ -82,7 +84,7 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
     if event_lines[0] == "BEGIN:VEVENT" and event_lines[-1] == "END:VEVENT":
         event_lines = event_lines[1:-1]
     else:
-        logger.error("Invalid Event")
+        LOGGER.error("Invalid Event")
         return
 
     event = OrderedDict(
@@ -93,7 +95,7 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
             "DTSTART": None,  # Date Start
             "DTEND": None,  # Date End
             "UID": None,  # Unique Identifier
-            "RRULE": None,  # Recurring Rule
+            "RRULE": None,  # Recurrence Rule
             "EXDATE": None,  # Exception Date
         }
     )
@@ -115,7 +117,7 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
 
     # 'Summary' fix
     original_summary = event.get("SUMMARY")
-    logger.info(original_summary)
+    # LOGGER.info(original_summary)
     if original_summary:
         room_index = original_summary.find("ROOM:")
         if room_index != -1:
@@ -131,17 +133,17 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
     if event.get("SUMMARY") == event.get("DESCRIPTION"):
         event.pop("DESCRIPTION")
 
-    # Fix useless recurring rules
+    # Fix useless recurrence rules
     if event.get("RRULE"):
         rrule_value: str = event.get("RRULE")
-        # check when the recurring rule ends
+        # check when the recurrence rule ends
         if "UNTIL=" in rrule_value:
             s_idx = rrule_value.find("UNTIL=")
             e_idx = rrule_value.find(";", s_idx)
             s_idx += 6
         recurring_until = rrule_value[s_idx:e_idx]
-        # if the recurring rule ends the same time as the event end time,
-        # it is a redundant recurring rule
+        # if the recurrence rule ends the same time as the event end time,
+        # it is a redundant recurrence rule
         if recurring_until == event.get("DTEND"):
             event["RRULE"] = None
             event["EXDATE"] = None
@@ -216,13 +218,13 @@ def generate_new_content_to_write(parsed_event_list: List[dict]) -> str:
 def fix(ics_path: str) -> Tuple[Path, int]:
     ics_path = Path(ics_path)
     if not ics_path.is_file():
-        logger.error(f"Invalid ics_path path: '{ics_path}'")
+        LOGGER.error(f"Invalid ics_path path: '{ics_path}'")
         raise Exception(f"Invalid ics_path path: '{ics_path}'")
     else:
         ics_path = ics_path.resolve()
 
     if str(ics_path)[-4:] != ".ics":
-        logger.error(f"'{ics_path}' is not an '.ics' ics_path")
+        LOGGER.error(f"'{ics_path}' is not an '.ics' ics_path")
         raise Exception(f"'{ics_path}' is not an '.ics' ics_path")
 
     event_list = get_event_list(ics_path)
@@ -235,7 +237,7 @@ def fix(ics_path: str) -> Tuple[Path, int]:
     with export_fp.open(mode="w") as f:
         f.write(new_content)
 
-    logger.debug(f"Successfully exported: {export_fp}")
+    LOGGER.info(f"Successfully exported: {export_fp}")
     return export_fp, len(parsed_event_list)
 
 

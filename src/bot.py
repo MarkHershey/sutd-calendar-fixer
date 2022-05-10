@@ -1,15 +1,25 @@
 import json
 import os
-from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 # external modules
 import telegram
-from markkk.logger import logger
-from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
+from puts import get_logger, timestamp_microseconds
+from telegram import Update
+from telegram.ext import (
+    CallbackContext,
+    CommandHandler,
+    Filters,
+    MessageHandler,
+    Updater,
+)
+from telegram.utils.helpers import escape_markdown
 
 # internal modules
 import calendarFixer
+
+LOGGER = get_logger(reset=True)
 
 curr_folder: Path = Path(__file__).parent.resolve()
 project_root: Path = curr_folder.parent
@@ -17,19 +27,22 @@ usr_data_path: Path = project_root / "usr_data"
 logs_path: Path = project_root / "logs"
 user_log_fp: Path = logs_path / "user_visit_history.txt"
 
-if not logs_path.is_dir():
-    os.mkdir(str(logs_path))
-if not usr_data_path.is_dir():
-    os.mkdir(str(usr_data_path))
+logs_path.mkdir(parents=True, exist_ok=True)
+usr_data_path.mkdir(parents=True, exist_ok=True)
 
 unique_users = set()
-interaction_counter = 0
+interaction_counter: int = 0
+parse_mode: str = telegram.ParseMode.MARKDOWN
+
+###############################################################################
+# Helper Functions
 
 
-############################################################################################
+def escape_md(string: Any) -> str:
+    return escape_markdown(str(string), version=2)
 
 
-def load_stats():
+def load_stats() -> None:
     global interaction_counter
     global unique_users
 
@@ -42,52 +55,42 @@ def load_stats():
 
     print(f"{interaction_counter} interactions")
     print(f"{len(unique_users)} unique users")
+    return None
 
 
-def timestamp_now() -> str:
-    """return a timestamp in string: YYYYMMDDHHMMSS"""
-    now: str = str(datetime.now())
-    ts: str = ""
-    for i in now[:-7]:
-        if i in (" ", "-", ":"):
-            pass
-        else:
-            ts += i
-    return ts
-
-
-def user_log(update, ts: str = None, remarks: str = ""):
+def user_log(update: Update, ts: str = None, remarks: str = "") -> None:
     global interaction_counter
     global unique_users
 
     if not ts:
-        ts: str = timestamp_now()
-    first_name: str = update.message.chat.first_name
-    last_name: str = update.message.chat.last_name
-    username: str = update.message.chat.username
-    _id: str = update.message.chat.id
-    name: str = f"{first_name} {last_name}"
+        ts: str = timestamp_microseconds()
+    first_name: str = update.message.from_user.first_name
+    last_name: str = update.message.from_user.last_name
+    username: str = update.message.from_user.username
+    _id: str = update.message.from_user.id
 
+    name: str = f"{first_name} {last_name}"
     unique_users.add(username)
     interaction_counter += 1
-
     record: str = (
         f"{ts} - id({_id}) - username({username}) - name({name}) - visited({remarks})\n"
     )
     with user_log_fp.open(mode="a") as f:
         f.write(record)
+    return None
 
 
-def error(update, context):
+def error(update: Update, context: CallbackContext) -> None:
     """Log Errors caused by Updates."""
-    logger.error(f'Update "{update}" caused error "{context.error}"')
+    LOGGER.error(f'Update "{update}" caused error "{context.error}"')
+    return None
 
 
-def start(update, context):
-    msg = """
-Howdy {},
+def start(update: Update, context: CallbackContext) -> None:
+    msg = f"""
+Howdy {update.message.from_user.first_name},
 
-Send me your schedule in `.ics`, I will make it look *prettier*!
+Send me your `schedule.ics`, I will make it look *prettier*!
 
 First time here? Use /help
 
@@ -95,24 +98,24 @@ First time here? Use /help
 
 /friends : get to know my friends.
 
-/source : view source / contribute.
-""".format(
-        update.message.chat.first_name
-    )
-    update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+/source : view source or report issues.
+"""
+    update.message.reply_text(msg, parse_mode=parse_mode)
     user_log(update, remarks="/start")
+    return None
 
 
-def stats(update, context):
+def stats(update: Update, context: CallbackContext) -> None:
     global interaction_counter
     global unique_users
 
     msg = f"To date, I have served {len(unique_users)} unique users in {interaction_counter} interactions."
-    update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+    update.message.reply_text(msg)
     user_log(update, remarks="/stats")
+    return None
 
 
-def help(update, context):
+def _help(update: Update, context: CallbackContext) -> None:
     msg = """
 Do you know that you can import your class schedule into your Google Calendar?
 
@@ -122,18 +125,19 @@ This bot helps you clean up the mess in the `.ics` file so that you will get a n
 
 Follow the step-by-step instructions to download your schedule, then *come back and send the file you downloaded to me (this chat)*.
 
-1. Visit [https://mymobile.sutd.edu.sg/app/dashboard](https://mymobile.sutd.edu.sg/app/dashboard)
-2. Use your SUTD Network ID (100xxxx) and password to log in
-3. Left-hand side menu (hamburger menu button) -> Choose *Schedule*
-4. Top-right gear-like button -> Choose *Download Schedule*
+1.  Visit [https://mymobile.sutd.edu.sg/app/dashboard](https://mymobile.sutd.edu.sg/app/dashboard)
+2.  Use your SUTD Network ID (`100xxxx`) to log in
+3.  From left-hand side menu -> Choose *Schedule*
+4.  Top-right gear-like button -> Choose *Download Schedule*
 
 Send me your downloaded `schedule.ics`
 """
-    update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+    update.message.reply_text(msg, parse_mode=parse_mode)
     user_log(update, remarks="/help")
+    return None
 
 
-def friends(update, context):
+def friends(update: Update, context: CallbackContext) -> None:
     msg = """
 I have some bot friends at SUTD, check them out!
 
@@ -145,54 +149,51 @@ I have some bot friends at SUTD, check them out!
 """
     update.message.reply_text(msg)
     user_log(update, remarks="/friends")
+    return None
 
 
-def source(update, context):
-    msg = "View source / contribute / report issue on [GitHub](https://github.com/MarkHershey/calendar-generator)"
-    update.message.reply_text(msg, parse_mode=telegram.ParseMode.MARKDOWN)
+def source(update: Update, context: CallbackContext) -> None:
+    msg = "View source code / contribute / report issues on [GitHub](https://github.com/MarkHershey/sutd-calendar-fixer)"
+    update.message.reply_text(msg, parse_mode=parse_mode)
     user_log(update, remarks="/source")
+    return None
 
 
-def echo(update, context):
+def echo(update: Update, context: CallbackContext) -> None:
     context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
     user_log(update, remarks="echo")
+    return None
 
 
-def ics(update, context):
+def ics(update: Update, context: CallbackContext) -> None:
     # get file type
     file_type = update.message.document.mime_type
     # proceed only if the file is an ics
     if file_type == "text/calendar":
-        # update.message.reply_text("Received!", parse_mode=telegram.ParseMode.MARKDOWN)
-        logger.debug("New file (text/calendar) received.")
-        ts: str = timestamp_now()
+        # update.message.reply_text("Received!", parse_mode=parse_mode)
+        LOGGER.info("New file (text/calendar) received.")
+        ts: str = timestamp_microseconds()
         file_id = update.message.document.file_id
         tg_file_ref = context.bot.get_file(file_id)
         download_filepath: Path = usr_data_path / f"{ts}.ics"
         tg_file_ref.download(download_filepath)
         # format the ics file
         try:
-            new_file, number_of_events = calendarFixer.fix(download_filepath)
+            new_filepath, number_of_events = calendarFixer.fix(download_filepath)
             user_log(update, ts=ts, remarks="ics")
         except Exception as e:
-            logger.error("re-formatting of calendar ics file has failed.")
-            logger.error(str(e))
-            update.message.reply_text(
-                "Sorry, I failed to parse your file, please report the issue from here: /source",
-                parse_mode=telegram.ParseMode.MARKDOWN,
-            )
+            LOGGER.error("re-formatting of calendar ics file has failed.")
+            LOGGER.error(str(e))
+            msg = "Sorry, I failed to parse your file, please report the issue from here: /source"
+            update.message.reply_text(msg, parse_mode=parse_mode)
             return
 
         # reply back
-        update.message.reply_text(
-            f"{number_of_events} events successfully re-formatted!",
-            parse_mode=telegram.ParseMode.MARKDOWN,
-        )
-        context.bot.send_document(
-            chat_id=update.effective_chat.id, document=open(new_file, "rb")
-        )
-        update.message.reply_text(
-            """*Fantastic, you can now import this `xxx_new.ics` into your Google/ Apple Calendar App, but you need to do this on your computer.*
+        msg = f"{number_of_events} events successfully re-formatted!"
+        update.message.reply_text(msg, parse_mode=parse_mode)
+        document = open(new_filepath, "rb")
+        context.bot.send_document(chat_id=update.effective_chat.id, document=document)
+        msg = """*Fantastic, you can now import this `xxx_new.ics` into your Google/ Apple Calendar App, but you need to do this on your computer.*
 
 Instructions for Google Calendar:
 
@@ -200,59 +201,59 @@ Instructions for Google Calendar:
 2. At the top right, click gear-like icon and then *Settings*.
 3. At the left, click *Import & Export*.
 4. Click *Select file from your computer* and select the `.ics` file you get from me.
-5. Choose which calendar to add the imported events to. By default, events will be imported into your primary calendar.
+5. Select the calendar to import new events into. We recommend creating a new calendar to import your SUTD timetable.
 6. Click *Import*.
-""",
-            parse_mode=telegram.ParseMode.MARKDOWN,
-        )
+"""
+        update.message.reply_text(msg, parse_mode=parse_mode)
 
     else:
-        update.message.reply_text(
-            "I can only digest `.ics` file for now.",
-            parse_mode=telegram.ParseMode.MARKDOWN,
-        )
+        msg = "I can only digest `.ics` file for now."
+        update.message.reply_text(msg, parse_mode=parse_mode)
+    return None
 
 
-def main():
-    """Start the bot"""
-
-    logger.info("Getting bot_token from environment")
+def get_bot_token() -> str:
+    """Get the bot token from the environment or the config file."""
+    LOGGER.info("Getting Bot Token from environment")
     bot_token = os.environ.get("BOT_TOKEN", None)
 
     if bot_token == "REPLACE_ME" or bot_token is None:
 
-        logger.info("Getting bot_token from src/config.conf")
+        LOGGER.info("Not found in env. Getting Bot Token from src/config.conf")
         config_fp = curr_folder / "config.conf"
 
         if not config_fp.is_file():
-            logger.error("bot_token not found: No Config File is Found.")
-            return
+            LOGGER.error("Bot Token not found: No Config File is Found.")
+            raise Exception("Bot Token Not Found.")
 
         with config_fp.open() as f:
             config = json.load(f)
         bot_token = config.get("bot_token", None)
 
     if bot_token == "REPLACE_ME" or bot_token is None:
-        logger.error(
-            "bot_token not found: Failed getting bot token from environment and 'config.conf'"
+        LOGGER.error(
+            "Bot Token not found: Failed getting bot token from environment and 'config.conf'"
         )
-        return
+        raise Exception("Bot Token Not Found.")
+    return bot_token
 
+
+def main() -> None:
+    """Start the bot"""
+    bot_token = get_bot_token()
     load_stats()
 
-    # Create the Updater and pass it your bot's token.
-    # Make sure to set use_context=True to use the new context based callbacks
-    # Post version 12 this will no longer be necessary
+    # Get the updater
     updater = Updater(bot_token, use_context=True)
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 
     # Command Handlers
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help))
-    dispatcher.add_handler(CommandHandler("stats", stats))
+    dispatcher.add_handler(CommandHandler("help", _help))
     dispatcher.add_handler(CommandHandler("friends", friends))
     dispatcher.add_handler(CommandHandler("source", source))
+    dispatcher.add_handler(CommandHandler("stats", stats))
 
     # Message Handlers
     dispatcher.add_handler(MessageHandler(Filters.text, echo))
@@ -264,6 +265,8 @@ def main():
     # Start the Bot
     updater.start_polling()
     updater.idle()
+
+    return None
 
 
 if __name__ == "__main__":

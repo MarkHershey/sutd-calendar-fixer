@@ -52,9 +52,6 @@ Pull requests, issue reporting, feature requests are very welcomed.
 ### Dependencies
 
 -   Python 3.x & [requirements.txt](requirements.txt)
-    ```bash
-    pip install -r requirements.txt
-    ```
 -   [docker](https://docs.docker.com/engine/install/) & [docker-compose](https://docs.docker.com/compose/install/)
 
 ### Run in Docker

@@ -1,9 +1,9 @@
 import json
 import os
+from logging import INFO
 from pathlib import Path
 from typing import Any
 
-# external modules
 import telegram
 from puts import get_logger, timestamp_microseconds
 from telegram import Update
@@ -20,6 +20,7 @@ from telegram.utils.helpers import escape_markdown
 import calendarFixer
 
 LOGGER = get_logger(reset=True)
+LOGGER.setLevel(INFO)
 
 curr_folder: Path = Path(__file__).parent.resolve()
 project_root: Path = curr_folder.parent
@@ -218,7 +219,6 @@ def get_bot_token() -> str:
     bot_token = os.environ.get("BOT_TOKEN", None)
 
     if bot_token == "REPLACE_ME" or bot_token is None:
-
         LOGGER.info("Not found in env. Getting Bot Token from src/config.conf")
         config_fp = curr_folder / "config.conf"
 

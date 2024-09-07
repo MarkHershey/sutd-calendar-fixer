@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from puts import get_logger
 
@@ -215,7 +215,11 @@ def generate_new_content_to_write(parsed_event_list: List[dict]) -> str:
     return string_to_write
 
 
-def fix(ics_path: str) -> Tuple[Path, int]:
+def fix(
+    ics_path: str,
+    out_path: Optional[str] = None,
+    overwrite: bool = False,
+) -> Tuple[Path, int]:
     ics_path = Path(ics_path)
     if not ics_path.is_file():
         LOGGER.error(f"Invalid ics_path path: '{ics_path}'")
@@ -231,9 +235,17 @@ def fix(ics_path: str) -> Tuple[Path, int]:
     parsed_event_list = parse_event_list(event_list)
     new_content = generate_new_content_to_write(parsed_event_list)
 
-    # create a new ics ics_path
-    folder: Path = ics_path.parent
-    export_fp: Path = folder / (ics_path.stem + "_new.ics")
+    if out_path:
+        export_fp = Path(out_path)
+    else:
+        # create a new ics ics_path
+        folder: Path = ics_path.parent
+        export_fp: Path = folder / (ics_path.stem + "_new.ics")
+
+    if export_fp.exists() and not overwrite:
+        LOGGER.error(f"File already exists: {export_fp}")
+        raise Exception(f"File already exists: {export_fp}")
+
     with export_fp.open(mode="w") as f:
         f.write(new_content)
 

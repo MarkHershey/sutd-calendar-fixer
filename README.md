@@ -47,8 +47,20 @@ Pull requests, issue reporting, feature requests are very welcomed.
 
 ### Dependencies
 
--   Python 3.x & [requirements.txt](requirements.txt)
--   [docker](https://docs.docker.com/engine/install/) & [docker-compose](https://docs.docker.com/compose/install/)
+-   Python 3.x & [requirements.txt](requirements.txt) for development
+-   [docker](https://docs.docker.com/engine/install/) for deployment
+
+### Run Tests
+
+```bash
+pytest
+```
+
+- This will run all the test `ics` files in the `tests/resources/ics_inputs` directory. You may add more test files to it.
+- The expected output is in the `tests/resources/ics_outputs` directory.
+- Please manually check the diffs to the output files if you modified the `src/calendarFixer` code. Make sure all changes are intended.
+- Make sure you run the tests and commit all the changes (i.e. including the `tests/resources/ics_outputs`) before creating a pull request.
+
 
 ### Run in Docker
 

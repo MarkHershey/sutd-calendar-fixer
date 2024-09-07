@@ -65,8 +65,8 @@ pytest
 ### Run in Docker
 
 1. Modify `docker-compose.yml` file, substitute your own Telegram `BOT_TOKEN`.
-2. To launch bot, run `docker-compose up --build -d`
-3. To terminate bot, run `docker-compose down`
+2. To launch bot, run `docker compose up --build -d`
+3. To terminate bot, run `docker compose down --rmi all`
 
 ### Check logs
 

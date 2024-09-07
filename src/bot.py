@@ -8,13 +8,13 @@ import telegram
 from puts import get_logger, timestamp_microseconds
 from telegram import Update
 from telegram.ext import (
-    CallbackContext,
+    ApplicationBuilder,
     CommandHandler,
-    Filters,
+    ContextTypes,
     MessageHandler,
-    Updater,
+    filters,
 )
-from telegram.utils.helpers import escape_markdown
+from telegram.helpers import escape_markdown
 
 # internal modules
 import calendarFixer
@@ -33,7 +33,7 @@ usr_data_path.mkdir(parents=True, exist_ok=True)
 
 unique_users = set()
 interaction_counter: int = 0
-parse_mode: str = telegram.ParseMode.MARKDOWN
+parse_mode: str = telegram.constants.ParseMode.MARKDOWN
 
 ###############################################################################
 # Helper Functions
@@ -81,13 +81,13 @@ def user_log(update: Update, ts: str = None, remarks: str = "") -> None:
     return None
 
 
-def error(update: Update, context: CallbackContext) -> None:
+def error(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Log Errors caused by Updates."""
     LOGGER.error(f'Update "{update}" caused error "{context.error}"')
     return None
 
 
-def start(update: Update, context: CallbackContext) -> None:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = f"""
 Howdy {update.message.from_user.first_name},
 
@@ -101,22 +101,20 @@ First time here? Use /help
 
 /source : view source or report issues.
 """
-    update.message.reply_text(msg, parse_mode=parse_mode)
+    await update.message.reply_text(msg, parse_mode=parse_mode)
     user_log(update, remarks="/start")
-    return None
 
 
-def stats(update: Update, context: CallbackContext) -> None:
+async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global interaction_counter
     global unique_users
 
     msg = f"To date, I have served {len(unique_users)} unique users in {interaction_counter} interactions."
-    update.message.reply_text(msg)
+    await update.message.reply_text(msg)
     user_log(update, remarks="/stats")
-    return None
 
 
-def _help(update: Update, context: CallbackContext) -> None:
+async def _help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = """
 Do you know that you can import your class schedule into your Google Calendar?
 
@@ -133,12 +131,11 @@ Follow the step-by-step instructions to download your schedule, then *come back 
 
 Send me your downloaded `schedule.ics`
 """
-    update.message.reply_text(msg, parse_mode=parse_mode)
+    await update.message.reply_text(msg, parse_mode=parse_mode)
     user_log(update, remarks="/help")
-    return None
 
 
-def friends(update: Update, context: CallbackContext) -> None:
+async def friends(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = """
 I have some bot friends at SUTD, check them out!
 
@@ -148,36 +145,35 @@ I have some bot friends at SUTD, check them out!
 
 @shimekiribot keeps an eye on your due days.
 """
-    update.message.reply_text(msg)
+    await update.message.reply_text(msg)
     user_log(update, remarks="/friends")
-    return None
 
 
-def source(update: Update, context: CallbackContext) -> None:
+async def source(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = "View source code / contribute / report issues on [GitHub](https://github.com/MarkHershey/sutd-calendar-fixer)"
-    update.message.reply_text(msg, parse_mode=parse_mode)
+    await update.message.reply_text(msg, parse_mode=parse_mode)
     user_log(update, remarks="/source")
-    return None
 
 
-def echo(update: Update, context: CallbackContext) -> None:
-    context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id, text=update.message.text
+    )
     user_log(update, remarks="echo")
-    return None
 
 
-def ics(update: Update, context: CallbackContext) -> None:
+async def ics(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # get file type
     file_type = update.message.document.mime_type
     # proceed only if the file is an ics
     if file_type == "text/calendar":
-        # update.message.reply_text("Received!", parse_mode=parse_mode)
+        # await update.message.reply_text("Received!", parse_mode=parse_mode)
         LOGGER.info("New file (text/calendar) received.")
         ts: str = timestamp_microseconds()
         file_id = update.message.document.file_id
-        tg_file_ref = context.bot.get_file(file_id)
+        tg_file_ref = await context.bot.get_file(file_id)
         download_filepath: Path = usr_data_path / f"{ts}.ics"
-        tg_file_ref.download(download_filepath)
+        await tg_file_ref.download_to_drive(download_filepath)
         # format the ics file
         try:
             new_filepath, number_of_events = calendarFixer.fix(download_filepath)
@@ -186,14 +182,16 @@ def ics(update: Update, context: CallbackContext) -> None:
             LOGGER.error("re-formatting of calendar ics file has failed.")
             LOGGER.error(str(e))
             msg = "Sorry, I failed to parse your file, please report the issue from here: /source"
-            update.message.reply_text(msg, parse_mode=parse_mode)
+            await update.message.reply_text(msg, parse_mode=parse_mode)
             return
 
         # reply back
         msg = f"{number_of_events} events successfully re-formatted!"
-        update.message.reply_text(msg, parse_mode=parse_mode)
+        await update.message.reply_text(msg, parse_mode=parse_mode)
         document = open(new_filepath, "rb")
-        context.bot.send_document(chat_id=update.effective_chat.id, document=document)
+        await context.bot.send_document(
+            chat_id=update.effective_chat.id, document=document
+        )
         msg = """*Fantastic, you can now import this `xxx_new.ics` into your Google/ Apple Calendar App, but you need to do this on your computer.*
 
 Instructions for Google Calendar:
@@ -205,12 +203,11 @@ Instructions for Google Calendar:
 5. Select the calendar to import new events into. We recommend creating a new calendar to import your SUTD timetable.
 6. Click *Import*.
 """
-        update.message.reply_text(msg, parse_mode=parse_mode)
+        await update.message.reply_text(msg, parse_mode=parse_mode)
 
     else:
         msg = "I can only digest `.ics` file for now."
-        update.message.reply_text(msg, parse_mode=parse_mode)
-    return None
+        await update.message.reply_text(msg, parse_mode=parse_mode)
 
 
 def get_bot_token() -> str:
@@ -243,28 +240,24 @@ def main() -> None:
     bot_token = get_bot_token()
     load_stats()
 
-    # Get the updater
-    updater = Updater(bot_token, use_context=True)
-    # Get the dispatcher to register handlers
-    dispatcher = updater.dispatcher
+    application = ApplicationBuilder().token(bot_token).build()
 
     # Command Handlers
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", _help))
-    dispatcher.add_handler(CommandHandler("friends", friends))
-    dispatcher.add_handler(CommandHandler("source", source))
-    dispatcher.add_handler(CommandHandler("stats", stats))
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("help", _help))
+    application.add_handler(CommandHandler("friends", friends))
+    application.add_handler(CommandHandler("source", source))
+    application.add_handler(CommandHandler("stats", stats))
 
     # Message Handlers
-    dispatcher.add_handler(MessageHandler(Filters.text, echo))
-    dispatcher.add_handler(MessageHandler(Filters.document, ics))
+    application.add_handler(MessageHandler(filters.TEXT, echo))
+    application.add_handler(MessageHandler(filters.Document.FileExtension("ics"), ics))
 
     # log all errors
-    dispatcher.add_error_handler(error)
+    application.add_error_handler(error)
 
     # Start the Bot
-    updater.start_polling()
-    updater.idle()
+    application.run_polling()
 
     return None
 

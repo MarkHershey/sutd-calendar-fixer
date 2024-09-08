@@ -16,7 +16,9 @@ MODULE_MISSPELLINGS = {
     "Freshmore Communication Prog": "Freshmore Communication Programme",
     "Computational Thinking For Des": "Computational Thinking For Design",
     "Science for a Sustainable Worl": "Science for a Sustainable World",
-    "Digital Worlds\, Space and Spat": "Digital Worlds, Space and Spatialities"
+    "Sci and Tech for Healthcare": "Science and Technology for Healthcare",
+    "Digital Worlds\\, Space and Spat": "Digital Worlds, Space and Spatialities",
+    "Introduction to Digital Humani": "Introduction to Digital Humanities"
 }
 
 
@@ -57,11 +59,13 @@ def fix_lines(event_lines_list: List[str]) -> List[str]:
             broken = True
 
         if broken:
-            to_check = fixed[-1] + line
-            if MISSING_SPACE_DIGIT.search(to_check) or "HongLec" in to_check:
-                fixed[-1] = fixed[-1] + " " + line
-            else:
-                fixed[-1] = to_check
+            # already accounted for with MISSING_CLOSING_BRACKET
+            if line != ")":
+                to_check = fixed[-1] + line
+                if MISSING_SPACE_DIGIT.search(to_check) or "HongLec" in to_check:
+                    fixed[-1] = fixed[-1] + " " + line
+                else:
+                    fixed[-1] = to_check
 
         if MISSING_CLOSING_BRACKET.search(fixed[-1]):
             fixed[-1] += ")"

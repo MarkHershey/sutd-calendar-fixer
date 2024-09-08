@@ -250,84 +250,84 @@ EXDATE;TZID=Asia/Singapore:20201114T090000
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20200917T113000
 DTEND;TZID=Asia/Singapore:20200917T133000
 UID:4b071ca3a403fc51ab285db312e156b0@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20200924T113000
 DTEND;TZID=Asia/Singapore:20200924T133000
 UID:b91ea8ccf7c8d0c358965453bbc2b8f3@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201001T113000
 DTEND;TZID=Asia/Singapore:20201001T133000
 UID:34ae83023cada153495ab0a93f267684@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201008T113000
 DTEND;TZID=Asia/Singapore:20201008T133000
 UID:799b66ace4fc5d8396489a087e48cc70@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201015T113000
 DTEND;TZID=Asia/Singapore:20201015T133000
 UID:a4de609dae4b3631ebbadec0a3f9fb32@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201022T113000
 DTEND;TZID=Asia/Singapore:20201022T133000
 UID:957327440eaf96a1cbb7ef5b6c878c2e@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201105T113000
 DTEND;TZID=Asia/Singapore:20201105T133000
 UID:56c2d7183f78bc22094267191425fb8d@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201112T113000
 DTEND;TZID=Asia/Singapore:20201112T133000
 UID:5523efa6141ca7f2122339341727595f@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201119T113000
 DTEND;TZID=Asia/Singapore:20201119T133000
 UID:ad14ad4010ca494282b15c66c4a2bb7f@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201126T113000
 DTEND;TZID=Asia/Singapore:20201126T133000
 UID:05acee31ff28b8b90a7acb1bc11e0533@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201203T113000
 DTEND;TZID=Asia/Singapore:20201203T133000
 UID:fdf8e3ad2095806e0373f1cafee43271@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom10 (2.308)
+LOCATION:Cohort Classroom 10 (2.308)
 DTSTART;TZID=Asia/Singapore:20201210T113000
 DTEND;TZID=Asia/Singapore:20201210T133000
 UID:2cb1e17db5087405116c38efc7e6318a@mymobile.sutd.edu.sg
@@ -365,168 +365,168 @@ RRULE:FREQ=WEEKLY;UNTIL=20201211T150000;BYDAY=TU
 EXDATE;TZID=Asia/Singapore:20201114T133000
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20200914T143000
 DTEND;TZID=Asia/Singapore:20200914T160000
 UID:4395d25d3a9f4cb7eace2a9980113869@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20200917T100000
 DTEND;TZID=Asia/Singapore:20200917T113000
 UID:cd0fe7c5067ee42865080c767dbc5e0c@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20200921T143000
 DTEND;TZID=Asia/Singapore:20200921T160000
 UID:dd1a8dac767dec962c5956184a1e65c9@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20200924T100000
 DTEND;TZID=Asia/Singapore:20200924T113000
 UID:7c68231f217e1ac10e456e2a91ee8d8d@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20200928T143000
 DTEND;TZID=Asia/Singapore:20200928T160000
 UID:4451abda2f89dfc96511575754fa2af2@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201001T100000
 DTEND;TZID=Asia/Singapore:20201001T113000
 UID:3886d17d50040981a405fdc977737a92@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201005T143000
 DTEND;TZID=Asia/Singapore:20201005T160000
 UID:1e3071e98e2d7db50304523cb86be8e1@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201008T100000
 DTEND;TZID=Asia/Singapore:20201008T113000
 UID:ac71fab87c7c3eed6e5a15d6c3bbd0f8@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201012T143000
 DTEND;TZID=Asia/Singapore:20201012T160000
 UID:ff296d73bb3fbe5f85b59c57d018885f@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201015T100000
 DTEND;TZID=Asia/Singapore:20201015T113000
 UID:0481d6b4339b306abc7ef6f32bacb7b5@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201019T143000
 DTEND;TZID=Asia/Singapore:20201019T160000
 UID:dead834eacfa93b68a76857247ce94ba@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201022T100000
 DTEND;TZID=Asia/Singapore:20201022T113000
 UID:7967c9fac86a48e9a1331ac854cf55b5@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201102T143000
 DTEND;TZID=Asia/Singapore:20201102T160000
 UID:1b27c8cb095c0226d08c446260a31658@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201105T100000
 DTEND;TZID=Asia/Singapore:20201105T113000
 UID:efbca729150682c3723126d248dd056c@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201109T143000
 DTEND;TZID=Asia/Singapore:20201109T160000
 UID:3e8e8058062bd8710cdc259292b5e479@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201112T100000
 DTEND;TZID=Asia/Singapore:20201112T113000
 UID:2adbd0d266614c065ca36e5cc149569c@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201116T143000
 DTEND;TZID=Asia/Singapore:20201116T160000
 UID:b62c4b5c4f7379ff06cd72750a009028@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201119T100000
 DTEND;TZID=Asia/Singapore:20201119T113000
 UID:c65830c9444e0ea5a7b9f8d9cd3b8997@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201123T143000
 DTEND;TZID=Asia/Singapore:20201123T160000
 UID:3538ea589833a0c198252a8ccbf5f62f@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201126T100000
 DTEND;TZID=Asia/Singapore:20201126T113000
 UID:9b9aa56fa4d19be22ce5dd7e8ea25741@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201130T143000
 DTEND;TZID=Asia/Singapore:20201130T160000
 UID:eca1ecc7537ffedeeac12d7418ba8afd@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201203T100000
 DTEND;TZID=Asia/Singapore:20201203T113000
 UID:482c6b696ac533aea835198a4c1c7bd4@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201207T143000
 DTEND;TZID=Asia/Singapore:20201207T160000
 UID:5ee4be1dfbbb474abeeaaac95c0c899e@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Introduction to Digital Humani
+SUMMARY:Introduction to Digital Humanities
 LOCATION:Capstone 1 (1.411)
 DTSTART;TZID=Asia/Singapore:20201210T100000
 DTEND;TZID=Asia/Singapore:20201210T113000
@@ -542,7 +542,7 @@ EXDATE;TZID=Asia/Singapore:20201114T143000
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom12 (2.406)
+LOCATION:Cohort Classroom 12 (2.406)
 DTSTART;TZID=Asia/Singapore:20201014T143000
 DTEND;TZID=Asia/Singapore:20201014T153000
 UID:befcc00e4477768e0f09d17881916c57@mymobile.sutd.edu.sg
@@ -574,7 +574,7 @@ EXDATE;TZID=Asia/Singapore:20201114T143000
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Algorithms
-LOCATION:Cohort Classroom12 (2.406)
+LOCATION:Cohort Classroom 12 (2.406)
 DTSTART;TZID=Asia/Singapore:20201125T143000
 DTEND;TZID=Asia/Singapore:20201125T153000
 UID:6928b27ec4e8170fd973e4b36cc3fb11@mymobile.sutd.edu.sg

@@ -1,14 +1,29 @@
 from collections import OrderedDict
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+import re
 
 from puts import get_logger
 
 LOGGER = get_logger()
+MISSING_SPACE_DIGIT = re.compile(r"[a-z]{1,4}\d{1,2}")
+MISSING_SPACE_BRACKET = re.compile(r"(\d)\(")
+MISSING_CLOSING_BRACKET = re.compile(r"\(\d\.\d{3}$")
+SUMMARY_FORMAT = re.compile(r"(.+) \d\d:\d\d [AP]M-\d\d:\d\d [AP]M")
+MODULE_MISSPELLINGS = {
+    "Global Humanities:Lit\\,Philo\\,Et": "Global Humanities",
+    "Professional Practice Programm": "Professional Practice Programme",
+    "Freshmore Communication Prog": "Freshmore Communication Programme",
+    "Computational Thinking For Des": "Computational Thinking For Design",
+    "Science for a Sustainable Worl": "Science for a Sustainable World",
+    "Sci and Tech for Healthcare": "Science and Technology for Healthcare",
+    "Digital Worlds\\, Space and Spat": "Digital Worlds, Space and Spatialities",
+    "Introduction to Digital Humani": "Introduction to Digital Humanities"
+}
 
 
-def fix_broken_lines(event_lines_list: List[str]) -> List[str]:
-    """Fix broken lines if any"""
+def fix_lines(event_lines_list: List[str]) -> List[str]:
+    """Fix lines which may be broken, containing missing spaces/closing brackets"""
 
     # list of expected keywords in SUTD-generated ics files
     KEYWORDS = (
@@ -31,6 +46,7 @@ def fix_broken_lines(event_lines_list: List[str]) -> List[str]:
     fixed: List[str] = []
 
     for line in event_lines_list:
+        broken = False
         line = line.strip()
         colon_index = line.find(":")
         if colon_index != -1:
@@ -38,16 +54,26 @@ def fix_broken_lines(event_lines_list: List[str]) -> List[str]:
             if key in KEYWORDS:
                 fixed.append(line)
             else:
-                # this is a broken line
-                # it should join with the previous line
-                fixed[-1] = fixed[-1] + line
+                broken = True
         else:
-            # this is a broken line too
-            # it should join with the previous line
-            fixed[-1] = fixed[-1] + line
+            broken = True
 
+        if broken:
+            # already accounted for with MISSING_CLOSING_BRACKET
+            if line != ")":
+                to_check = fixed[-1] + line
+                if MISSING_SPACE_DIGIT.search(to_check) or "HongLec" in to_check:
+                    fixed[-1] = fixed[-1] + " " + line
+                else:
+                    fixed[-1] = to_check
+
+        if MISSING_CLOSING_BRACKET.search(fixed[-1]):
+            fixed[-1] += ")"
+        if MISSING_SPACE_BRACKET.search(fixed[-1]):
+            saved_digit = MISSING_SPACE_BRACKET.search(fixed[-1]).group(1)
+            fixed[-1] = fixed[-1].replace(f"{saved_digit}(", f"{saved_digit} (")
+        
     return fixed
-
 
 def get_event_list(ics_path: str) -> List[List[str]]:
     ics_path = Path(ics_path)
@@ -73,12 +99,11 @@ def get_event_list(ics_path: str) -> List[List[str]]:
 
         if line.startswith("END:VEVENT"):
             reading_event = False
-            event_list.append(fix_broken_lines(current_event_lines))
+            event_list.append(fix_lines(current_event_lines))
             # reset
             current_event_lines = []
 
     return event_list
-
 
 def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
     if event_lines[0] == "BEGIN:VEVENT" and event_lines[-1] == "END:VEVENT":
@@ -115,6 +140,12 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
         # store LINE_VALUE in event dict
         event[key] = line_value
 
+        match key:
+            case "DESCRIPTION":
+                event["DESCRIPTION"] = MODULE_MISSPELLINGS.get(
+                    event["DESCRIPTION"], event["DESCRIPTION"]
+                )
+
     # 'Summary' fix
     original_summary = event.get("SUMMARY")
     # LOGGER.info(original_summary)
@@ -125,10 +156,10 @@ def parse_single_event(event_lines: List[str]) -> Dict[str, str]:
             event["LOCATION"] = location_value.strip()
             original_summary = original_summary[:room_index]
 
-        chop_index = original_summary.find(":")
-        if chop_index != -1:
-            chopped = original_summary[: chop_index - 2]
-            event["SUMMARY"] = chopped.strip()
+        event["SUMMARY"] = re.search(SUMMARY_FORMAT, original_summary).group(1)
+        event["SUMMARY"] = MODULE_MISSPELLINGS.get(
+            event["SUMMARY"], event["SUMMARY"]
+        )
 
     if event.get("SUMMARY") == event.get("DESCRIPTION"):
         event.pop("DESCRIPTION")

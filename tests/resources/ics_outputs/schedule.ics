@@ -18,70 +18,70 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200203T110000
 DTEND;TZID=Asia/Singapore:20200203T120000
 UID:98c5c093613be7330b76ce057e719582@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200210T110000
 DTEND;TZID=Asia/Singapore:20200210T120000
 UID:19ecf2dba374b6b670c412e69b6e1378@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200217T110000
 DTEND;TZID=Asia/Singapore:20200217T120000
 UID:49b25126973a96c93f9fb4dbfd143f08@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200224T110000
 DTEND;TZID=Asia/Singapore:20200224T120000
 UID:23059baa108e82aed6f6f5b07b66e3e6@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200302T110000
 DTEND;TZID=Asia/Singapore:20200302T120000
 UID:d4d9c0abe3f4d9871ab3c4e5b863354f@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200316T120000
 DTEND;TZID=Asia/Singapore:20200316T130000
 UID:554ba63a52af07ea84275b483f0a428e@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200323T110000
 DTEND;TZID=Asia/Singapore:20200323T120000
 UID:888cdbf7739970decfae9fdce827f95f@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200330T110000
 DTEND;TZID=Asia/Singapore:20200330T120000
 UID:3cc4690aac00e0115ebb4904183a79f6@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200406T110000
 DTEND;TZID=Asia/Singapore:20200406T120000
 UID:1328306e7d464c53f4bd53157cc8552d@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Modelling the Systems World
-LOCATION:Lecture Theatre2 (1.203)
+LOCATION:Lecture Theatre 2 (1.203)
 DTSTART;TZID=Asia/Singapore:20200420T110000
 DTEND;TZID=Asia/Singapore:20200420T120000
 UID:cdca4da8d01560983d7a126783792343@mymobile.sutd.edu.sg
@@ -396,7 +396,7 @@ UID:9cf77d8ac7aaba6a3bd25c1fd789f109@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:The Digital World
-LOCATION:Albert Hong Lec Theatre (1.102
+LOCATION:Albert Hong Lec Theatre (1.102)
 DTSTART;TZID=Asia/Singapore:20200128T090000
 DTEND;TZID=Asia/Singapore:20200128T100000
 UID:cd3ca508925b46f880574eaad815acf9@mymobile.sutd.edu.sg
@@ -753,77 +753,77 @@ UID:4aa9926f7630b91187fce55551787c61@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200317T093000
 DTEND;TZID=Asia/Singapore:20200317T113000
 UID:2551f80e5746834d19e3688788388907@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200320T113000
 DTEND;TZID=Asia/Singapore:20200320T133000
 UID:381dcb1a1e19e71b6ba674a6664791be@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200324T093000
 DTEND;TZID=Asia/Singapore:20200324T113000
 UID:c382e492a15fca9d5e2fe1d49a80b464@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200327T113000
 DTEND;TZID=Asia/Singapore:20200327T133000
 UID:1bc2684dbe178f35eab66ff23228fa15@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200331T093000
 DTEND;TZID=Asia/Singapore:20200331T113000
 UID:ae1eafbc381482798d560b640c3b4ee1@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200403T113000
 DTEND;TZID=Asia/Singapore:20200403T133000
 UID:0e1ffbbb907a1de2f7a151b963ed57f4@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200407T093000
 DTEND;TZID=Asia/Singapore:20200407T113000
 UID:700d6c6bb56e48e655658e0c853a109a@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200413T113000
 DTEND;TZID=Asia/Singapore:20200413T133000
 UID:238efa05196b37367220b3c2457f02ea@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200421T093000
 DTEND;TZID=Asia/Singapore:20200421T113000
 UID:f3d82194c2cbce2730b99162ddcb9da8@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200424T113000
 DTEND;TZID=Asia/Singapore:20200424T133000
 UID:68392a7b44464fe5da1260e768c0d929@mymobile.sutd.edu.sg
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200415T100000
 DTEND;TZID=Asia/Singapore:20200415T120000
 UID:bd6938a3772817308824f407e0e28c99@mymobile.sutd.edu.sg
@@ -886,7 +886,7 @@ EXDATE;TZID=Asia/Singapore:20200410T143000,20200501T143000
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200403T143000
 DTEND;TZID=Asia/Singapore:20200403T151000
 UID:9bd73280f31d57f3d84300ace75a6223@mymobile.sutd.edu.sg
@@ -902,7 +902,7 @@ EXDATE;TZID=Asia/Singapore:20200410T143000,20200501T143000
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Introduction to Biology
-LOCATION:Cohort Classroom 2(1.315)
+LOCATION:Cohort Classroom 2 (1.315)
 DTSTART;TZID=Asia/Singapore:20200417T143000
 DTEND;TZID=Asia/Singapore:20200417T151000
 UID:8b8f567abe7749098e5dcd6dbc5856a1@mymobile.sutd.edu.sg

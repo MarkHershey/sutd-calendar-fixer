@@ -5,6 +5,13 @@
 
 ---
 
+> [!IMPORTANT]
+> The website [mymobile.sutd.edu.sg](http://mymobile.sutd.edu.sg/) has been removed by SUTD (since 15 Dec 2024). 
+> 
+> The telegram bot [@sutd_ics_bot](https://t.me/sutd_ics_bot) has been retired following the removal of the website after serving at least 1838 unique users.
+
+---
+
 Do you know that you can import your class schedule into your Google Calendar?
 
 You can download a `schedule.ics` file from [mymobile.sutd.edu.sg](http://mymobile.sutd.edu.sg/), but the original file is badly formatted and it won't look good on your calendar App.
@@ -17,15 +24,13 @@ This bot helps you clean up the mess in the `schedule.ics` file so that you will
 
 ## Usage
 
-### Interactive:
+<!-- ### Interactive:
 
 Just talk to the telegram bot [**@sutd_ics_bot**](https://t.me/sutd_ics_bot) and follow the step-by-step instructions from there.
 
-> If the bot isn't working as you expected, please [create a new issue](https://github.com/MarkHershey/calendar-generator/issues) and elaborate your case.
+> If the bot isn't working as you expected, please [create a new issue](https://github.com/MarkHershey/calendar-generator/issues) and elaborate your case. -->
 
 ### Manual:
-
-In case the telegram bot is not working, you can also do it manually by following the steps below:
 
 1. clone this repository to your local machine
     ```bash
@@ -41,9 +46,9 @@ In case the telegram bot is not working, you can also do it manually by followin
     python3 src/calendarFixer.py "path/to/your/schedule.ics"
     ```
 
-## Development
+<!-- ## Development
 
-Pull requests, issue reporting, feature requests are very welcomed.
+Pull requests, issue reporting, feature requests are very welcomed. -->
 
 ### Dependencies
 
